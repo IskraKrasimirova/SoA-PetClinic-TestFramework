@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.36705.20 d17.14
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SeleniumFramework.UiTests", "SeleniumFramework.UiTests\SeleniumFramework.UiTests.csproj", "{13EFB12A-A6BC-41B2-9D35-FB4A980280EE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SeleniumFramework.ApiTests", "SeleniumFramework.ApiTests\SeleniumFramework.ApiTests.csproj", "{A74B3663-4A12-4D8E-B099-43ECC01B9597}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{13EFB12A-A6BC-41B2-9D35-FB4A980280EE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{13EFB12A-A6BC-41B2-9D35-FB4A980280EE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{13EFB12A-A6BC-41B2-9D35-FB4A980280EE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{13EFB12A-A6BC-41B2-9D35-FB4A980280EE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A74B3663-4A12-4D8E-B099-43ECC01B9597}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A74B3663-4A12-4D8E-B099-43ECC01B9597}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A74B3663-4A12-4D8E-B099-43ECC01B9597}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A74B3663-4A12-4D8E-B099-43ECC01B9597}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {AEF9AE8E-089F-4A66-A0D2-B2DB54140F28}
+	EndGlobalSection
+EndGlobal
