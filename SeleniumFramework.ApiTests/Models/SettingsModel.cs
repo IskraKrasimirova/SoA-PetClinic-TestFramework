@@ -1,11 +1,7 @@
-﻿namespace SeleniumFramework.Models
+﻿namespace SeleniumFramework.ApiTests.Models
 {
     public class SettingsModel
     {
         public string BaseUrl { get; set; }
-        public string Email { get; set; }
-        public string Password { get; set; }
-        public string Username { get; set; }
-        public string ConnectionString { get; set; }
     }
 }

@@ -1,5 +1,5 @@
 ﻿using Microsoft.Extensions.Configuration;
-using SeleniumFramework.Models;
+using SeleniumFramework.ApiTests.Models;
 
 namespace SeleniumFramework.ApiTests.Utils
 {

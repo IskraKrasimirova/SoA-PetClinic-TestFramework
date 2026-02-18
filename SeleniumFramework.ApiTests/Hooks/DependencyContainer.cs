@@ -2,6 +2,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Reqnroll.Microsoft.Extensions.DependencyInjection;
 using RestSharp;
 using SeleniumFramework.ApiTests.Apis;
+using SeleniumFramework.ApiTests.Models;
 using SeleniumFramework.ApiTests.Utils;
 
 namespace SeleniumFramework.ApiTests.Hooks;
@@ -19,8 +20,8 @@ public class DependencyContainer
 
         services.AddSingleton<RestClient>(sp =>
         {
-            //TODO - Move the base URL to a configuration file
-            var options = new RestClientOptions("http://localhost:5000");
+            var settings = sp.GetRequiredService<SettingsModel>();
+            var options = new RestClientOptions(settings.BaseUrl);
             var client = new RestClient(options);
             client.AddDefaultHeader("Accept", "application/json");
             return client;

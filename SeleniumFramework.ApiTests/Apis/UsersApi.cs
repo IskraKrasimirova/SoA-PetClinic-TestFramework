@@ -1,4 +1,3 @@
-
 using RestSharp;
 using SeleniumFramework.ApiTests.Models.Dtos;
 
