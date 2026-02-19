@@ -134,7 +134,7 @@ this.ScenarioInitialize(scenarioInfo, ruleInfo);
  await testRunner.GivenAsync("I am on the Home Page", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
 #line 8
- await testRunner.WhenAsync("I navigate to the \"Find Owners\" page", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+ await testRunner.WhenAsync("I navigate to Find Owners page", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
 #line 9
  await testRunner.ThenAsync("the \"Find Owners\" title is displayed", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");

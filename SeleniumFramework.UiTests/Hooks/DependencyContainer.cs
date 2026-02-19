@@ -79,6 +79,12 @@ namespace SeleniumFramework.Hooks
                 var driver = sp.GetRequiredService<IWebDriver>();
                 return new FindOwnersPage(driver);
             });
+
+            services.AddScoped(sp =>
+            {
+                var driver = sp.GetRequiredService<IWebDriver>();
+                return new NavigationBar(driver);
+            });
         }
 
         private static void RegisterApi(ServiceCollection services)

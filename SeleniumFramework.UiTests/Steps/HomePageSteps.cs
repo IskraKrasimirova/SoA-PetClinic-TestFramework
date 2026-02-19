@@ -21,11 +21,5 @@ namespace SeleniumFramework.Steps
         {
             _homePage.VerifyIsAtHomePage();
         }
-
-        [When("I navigate to the {string} page")]
-        public void WhenINavigateToThePage(string p0)
-        {
-            _homePage.NavigateToFindOwnersPage();
-        }
     }
 }
