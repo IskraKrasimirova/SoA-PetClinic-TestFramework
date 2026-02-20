@@ -44,6 +44,12 @@ namespace SeleniumFramework.Utilities.Extensions
                 .Until(ExpectedConditions.UrlContains(expectedUrlPart));
         }
 
+        public static void EnterText(this IWebElement element, string text)
+        {
+            element.Clear();
+            element.SendKeys(text);
+        }
+
         private static WebDriverWait WaitForPredicate(this IWebDriver driver, int timeoutInSeconds = 10)
         {
             var customWait = new WebDriverWait(driver, TimeSpan.FromSeconds(timeoutInSeconds));

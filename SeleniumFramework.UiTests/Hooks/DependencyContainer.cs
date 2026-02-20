@@ -10,6 +10,7 @@ using SeleniumFramework.Utilities;
 using System.Data;
 using RestSharp;
 using SeleniumFramework.ApiTests.Apis;
+using SeleniumFramework.Models.Factory;
 
 namespace SeleniumFramework.Hooks
 {
@@ -34,6 +35,8 @@ namespace SeleniumFramework.Hooks
 
                 return driver;
             });
+
+            services.AddSingleton<IOwnerFactory, OwnerFactory>();
 
             RegisterPages(services);
             RegisterDatabaseOperations(services);
@@ -78,6 +81,24 @@ namespace SeleniumFramework.Hooks
             {
                 var driver = sp.GetRequiredService<IWebDriver>();
                 return new FindOwnersPage(driver);
+            });
+
+            services.AddScoped(sp =>
+            {
+                var driver = sp.GetRequiredService<IWebDriver>();
+                return new AddOwnerPage(driver);
+            });
+
+            services.AddScoped(sp =>
+            {
+                var driver = sp.GetRequiredService<IWebDriver>();
+                return new OwnerDetailsPage(driver);
+            });
+
+            services.AddScoped(sp =>
+            {
+                var driver = sp.GetRequiredService<IWebDriver>();
+                return new OwnersResultsPage(driver);
             });
 
             services.AddScoped(sp =>

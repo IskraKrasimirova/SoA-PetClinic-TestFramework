@@ -13,11 +13,13 @@ namespace SeleniumFramework.Steps
             this._navigationBar = navigationBar;
         }
 
+        [Given("I navigate to Find Owners page")]
         [When("I navigate to Find Owners page")]
         public void WhenINavigateToFindOwnersPage()
         {
             _navigationBar.VerifyNavigationIsVisible();
             _navigationBar.GoToFindOwnersPage();
         }
+
     }
 }
