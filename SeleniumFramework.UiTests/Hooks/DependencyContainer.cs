@@ -40,7 +40,7 @@ namespace SeleniumFramework.Hooks
             services.AddSingleton<IPetFactory, PetFactory>();
 
             RegisterPages(services);
-            RegisterDatabaseOperations(services);
+            //RegisterDatabaseOperations(services);
             RegisterApi(services);
 
             return services;
@@ -119,18 +119,17 @@ namespace SeleniumFramework.Hooks
         {
             services.AddSingleton<RestClient>(sp =>
             {
-                //TODO - Move the base URL to a configuration file
-                var options = new RestClientOptions("http://localhost:5000");
+                var settings = sp.GetRequiredService<SettingsModel>();
+                var options = new RestClientOptions(settings.ApiBaseUrl);
                 var client = new RestClient(options);
                 client.AddDefaultHeader("Accept", "application/json");
                 return client;
             });
         
-            // Use as example
             services.AddScoped(sp =>
             {
                 var client = sp.GetRequiredService<RestClient>();
-                return new UsersApi(client);
+                return new OwnersApi(client);
             });
         }
     }

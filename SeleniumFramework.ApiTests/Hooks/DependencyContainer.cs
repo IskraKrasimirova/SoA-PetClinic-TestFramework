@@ -30,9 +30,15 @@ public class DependencyContainer
         services.AddScoped(sp =>
         {
             var client = sp.GetRequiredService<RestClient>();
-            return new UsersApi(client);
+            return new OwnersApi(client);
         });
-        
+
+        services.AddScoped(sp =>
+        {
+            var client = sp.GetRequiredService<RestClient>();
+            return new PetTypesApi(client);
+        });
+
         return services;
     }
 }

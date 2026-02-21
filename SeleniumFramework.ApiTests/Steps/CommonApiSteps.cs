@@ -2,6 +2,7 @@ using FluentAssertions;
 using NUnit.Framework;
 using Reqnroll;
 using SeleniumFramework.ApiTests.Models.Dtos;
+using SeleniumFramework.ApiTests.Utils;
 
 namespace SeleniumFramework.ApiTests.Steps;
 
@@ -19,7 +20,7 @@ public class CommonApiSteps
      Given("the response status code should be {int}")]
     public void ThenTheResponseStatusCodeShouldBe(int expectedStatusCode)
     {
-        var statusCode = _scenarioContext.Get<int>("StatusCode");
+        var statusCode = _scenarioContext.Get<int>(ContextConstants.StatusCode);
 
         Assert.That(statusCode, Is.EqualTo(expectedStatusCode));
     }
@@ -27,7 +28,7 @@ public class CommonApiSteps
     [Then("the response should contain the following error message {string}")]
     public void ThenTheResponseShouldContainTheFollowingErrorMessage(string errorMessage)
     {
-        var response = _scenarioContext.Get<string>("RawResponse");
+        var response = _scenarioContext.Get<string>(ContextConstants.RawResponse);
         response.Should().Contain(errorMessage);
     }
 
@@ -38,5 +39,13 @@ public class CommonApiSteps
         var actualErrorResponse = _scenarioContext.Get<ErrorsDto>("ErrorsResponse");
         
         actualErrorResponse.Message.Should().Contain(expectedErrorMessages);
+    }
+
+    [Then("the response content type should be {string}")]
+    public void ThenTheResponseContentTypeShouldBe(string expectedContentType)
+    {
+        var contentType = _scenarioContext.Get<string>(ContextConstants.ContentType);
+
+        Assert.That(contentType, Is.EqualTo(expectedContentType));
     }
 }
