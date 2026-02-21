@@ -29,6 +29,13 @@ namespace SeleniumFramework.Steps
             _findOwnersPage.NavigateToAddOwnerPage();
         }
 
+        [Given("I search for an owner with empty criteria")]
+        public void GivenISearchForAnOwnerWithEmptyCriteria()
+        {
+            _findOwnersPage.VerifyIsAtFindOwnersPage();
+            _findOwnersPage.NavigateToOwnersResultsPage();
+        }
+
         [Then("I search for the created owner by Last Name")]
         public void ThenISearchForTheCreatedOwnerByLastName()
         {

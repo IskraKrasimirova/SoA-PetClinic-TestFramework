@@ -24,6 +24,7 @@ namespace SeleniumFramework.Steps
             this._ownersResultsPage = ownersResultsPage;
         }
 
+        [Given("I create a new owner with valid details")]
         [When("I create a new owner with valid details")]
         public void WhenICreateANewOwnerWithValidDetails()
         {

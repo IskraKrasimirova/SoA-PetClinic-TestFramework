@@ -11,6 +11,7 @@ namespace SeleniumFramework.Pages
         private IWebElement AddOwnerButton => _driver.FindElement(By.XPath("//a[text()='Add Owner']"));
         private IWebElement LogoImage => _driver.FindElement(By.XPath("//img[contains(@src,'spring')]"));
         private IWebElement OwnersTable => _driver.FindElement(By.XPath("//table[@id='ownersTable']"));
+
         public FindOwnersPage(IWebDriver driver) : base(driver)
         {
         }
@@ -23,6 +24,11 @@ namespace SeleniumFramework.Pages
         public void NavigateToAddOwnerPage()
         {
             AddOwnerButton.Click();
+        }
+
+        internal void NavigateToOwnersResultsPage()
+        {
+            FindOwnerButton.Click();
         }
 
         public void SearchByLastName(string lastName)

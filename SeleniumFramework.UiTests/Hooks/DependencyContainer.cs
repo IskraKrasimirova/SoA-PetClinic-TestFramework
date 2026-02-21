@@ -37,6 +37,7 @@ namespace SeleniumFramework.Hooks
             });
 
             services.AddSingleton<IOwnerFactory, OwnerFactory>();
+            services.AddSingleton<IPetFactory, PetFactory>();
 
             RegisterPages(services);
             RegisterDatabaseOperations(services);
@@ -99,6 +100,18 @@ namespace SeleniumFramework.Hooks
             {
                 var driver = sp.GetRequiredService<IWebDriver>();
                 return new OwnersResultsPage(driver);
+            });
+
+            services.AddScoped(sp =>
+            {
+                var driver = sp.GetRequiredService<IWebDriver>();
+                return new AddPetPage(driver);
+            });
+
+            services.AddScoped(sp =>
+            {
+                var driver = sp.GetRequiredService<IWebDriver>();
+                return new AddVisitPage(driver);
             });
 
             services.AddScoped(sp =>

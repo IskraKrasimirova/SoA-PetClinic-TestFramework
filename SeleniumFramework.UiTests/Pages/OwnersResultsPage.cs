@@ -18,6 +18,14 @@ namespace SeleniumFramework.Pages
         {
         }
 
+        public void SelectFirstOwner()
+        {
+            Assert.That(OwnerRows, Is.Not.Empty, "No owners are found in the results table.");
+
+            var firstOwnerLink = OwnerRows.First().FindElement(By.TagName("a"));
+            firstOwnerLink.Click();
+        }
+
         public void VerifyOwnerExists(string fullName)
         {
             IWebElement? ownerRow = FindOwnerRowByFullName(fullName);

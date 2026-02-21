@@ -50,6 +50,15 @@ namespace SeleniumFramework.Utilities.Extensions
             element.SendKeys(text);
         }
 
+        public static void EnterDate(this IWebDriver driver, IWebElement element, string date)
+        {
+            element.Click();
+
+            ((IJavaScriptExecutor)driver).ExecuteScript("arguments[0].value = arguments[1];", element, date);
+
+            element.SendKeys(Keys.Tab);
+        }
+
         private static WebDriverWait WaitForPredicate(this IWebDriver driver, int timeoutInSeconds = 10)
         {
             var customWait = new WebDriverWait(driver, TimeSpan.FromSeconds(timeoutInSeconds));
