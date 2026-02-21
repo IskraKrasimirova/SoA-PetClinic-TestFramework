@@ -7,12 +7,10 @@ namespace SeleniumFramework.Steps
     [Binding]
     public class HomePageSteps
     {
-        private readonly IWebDriver _driver;
         private readonly HomePage _homePage;
 
-        public HomePageSteps(IWebDriver driver, HomePage homePage)
+        public HomePageSteps( HomePage homePage)
         {
-            this._driver = driver;
             this._homePage = homePage;
         }
 

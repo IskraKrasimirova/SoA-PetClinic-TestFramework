@@ -40,15 +40,18 @@ namespace SeleniumFramework.Steps
         public void ThenTheOwnerAppearsInTheSearchResultsWithCorrectDetails()
         {
             var registeredOwner = _scenarioContext.Get<OwnerModel>(ContextConstants.RegisteredOwner);
-            var fullName = $"{registeredOwner.FirstName} {registeredOwner.LastName}";
 
             if (_ownersResultsPage.IsAtOwnersResultsPage())
             {
-                _ownersResultsPage.VerifyOwnerExists(fullName);
+                _ownersResultsPage.VerifyOwnerExists(registeredOwner);
             }
-            else if(_ownerDetailsPage.IsAtOwnerDetailsPage())
+            else if (_ownerDetailsPage.IsAtOwnerDetailsPage())
             {
                 _ownerDetailsPage.VerifyOwnerDetails(registeredOwner);
+            }
+            else
+            {
+                throw new Exception("Not on expected page after owner registration.");
             }
         }
     }

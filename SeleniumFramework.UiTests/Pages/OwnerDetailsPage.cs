@@ -97,6 +97,7 @@ namespace SeleniumFramework.Pages
             Assert.Multiple(() =>
             {
                 Assert.That(OwnerInfoHeader.Displayed, "Owner Information header is not visible.");
+                Assert.That(OwnerInfoHeader.Text.Trim(), Is.EqualTo("Owner Information"));
                 Assert.That(OwnerInfoTable.Displayed, "OwnerInfo table is not visible.");
                 Assert.That(EditOwnerButton.Displayed, "EditOwner button is not visible.");
                 Assert.That(AddPetButton.Displayed, "AddPet button is not visible.");

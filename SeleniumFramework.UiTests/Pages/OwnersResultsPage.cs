@@ -1,4 +1,5 @@
 ﻿using OpenQA.Selenium;
+using SeleniumFramework.Models;
 using SeleniumFramework.Utilities.Extensions;
 
 namespace SeleniumFramework.Pages
@@ -26,24 +27,47 @@ namespace SeleniumFramework.Pages
             firstOwnerLink.Click();
         }
 
-        public void VerifyOwnerExists(string fullName)
+        public void VerifyOwnerExists(OwnerModel expectedOwner)
         {
+            var fullName = $"{expectedOwner.FirstName} {expectedOwner.LastName}";
             IWebElement? ownerRow = FindOwnerRowByFullName(fullName);
+
             Assert.That(ownerRow, Is.Not.Null, $"Owner with fullName {fullName} was not found.");
+
+            var headers = OwnersTable.FindElements(By.XPath(".//thead/tr/th"))
+                .Select(th => th.Text.Trim())
+                .ToList();
+
+            var expectedHeaders = new List<string> { "Name", "Address", "City", "Telephone", "Pets" };
+            Assert.That(headers, Is.EqualTo(expectedHeaders), "Table headers do not match expected values.");
+
+            var cells = ownerRow.FindElements(By.XPath("./td"))
+                .Select(td => td.Text.Trim())
+                .ToList();
+
+            Assert.That(cells[0], Is.EqualTo(fullName), "Owner's full name does not match.");
+
+            Assert.Multiple(() =>
+            {
+                Assert.That(cells[1], Is.EqualTo(expectedOwner.Address), "Owner's address does not match.");
+                Assert.That(cells[2], Is.EqualTo(expectedOwner.City), "Owner's city does not match.");
+                Assert.That(cells[3], Is.EqualTo(expectedOwner.Telephone), "Owner's telephone does not match.");
+            });
         }
 
         public bool IsAtOwnersResultsPage()
         {
-            return _driver.Url.Contains("owners?lastName");
+            return _driver.Url.Contains("owners?lastName=");
         }
 
         public void VerifyIsAtOwnersResultsPage()
         {
-            _driver.WaitUntilUrlContains("owners?lastName");
+            _driver.WaitUntilUrlContains("owners?lastName=");
 
             Assert.Multiple(() =>
             {
                 Assert.That(OwnersHeader.Displayed, "Owners header is not visible.");
+                Assert.That(OwnersHeader.Text.Trim(), Is.EqualTo("Owners"));
                 Assert.That(OwnersTable.Displayed, "Owners table is not visible.");
                 Assert.That(LogoImage.Displayed, "Spring logo is not visible.");
             });

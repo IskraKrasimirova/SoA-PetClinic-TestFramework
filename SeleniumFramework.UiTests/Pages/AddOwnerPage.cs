@@ -37,6 +37,7 @@ namespace SeleniumFramework.Pages
             Assert.Multiple(() =>
             {
                 Assert.That(NewOwnerHeader.Displayed, "NewOwner header is not visible.");
+                Assert.That(NewOwnerHeader.Text.Trim(), Is.EqualTo("New Owner"));
                 Assert.That(FirstNameInput.Displayed, "First Name field is not visible.");
                 Assert.That(LastNameInput.Displayed, "Last Name field is not visible.");
                 Assert.That(AddressInput.Displayed, "Address field is not visible.");

@@ -10,8 +10,8 @@ namespace SeleniumFramework.Models.Factory
         {
             var owner = new OwnerModel()
             {
-                FirstName = Faker.Name.FirstName(),
-                LastName = Faker.Name.LastName(),
+                FirstName = Faker.Name.FirstName().Replace("'", ""),
+                LastName = Faker.Name.LastName().Replace("'", ""),
                 Address = Faker.Address.StreetAddress(),
                 City = Faker.Address.City(),
                 Telephone = Faker.Random.ReplaceNumbers("##########")

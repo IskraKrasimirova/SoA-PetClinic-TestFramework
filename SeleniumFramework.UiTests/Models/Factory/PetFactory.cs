@@ -11,7 +11,7 @@ namespace SeleniumFramework.Models.Factory
         {
             var pet = new PetModel()
             {
-                Name = Faker.Name.FirstName(),
+                Name = Faker.Name.FirstName().Replace("'", ""),
                 BirthDate = Faker.Date.Past(10).ToString("yyyy-MM-dd"),
                 Type = Faker.PickRandom(ValidTypes)
             };

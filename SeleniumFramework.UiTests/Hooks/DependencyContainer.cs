@@ -69,12 +69,6 @@ namespace SeleniumFramework.Hooks
             services.AddScoped(sp =>
             {
                 var driver = sp.GetRequiredService<IWebDriver>();
-                return new LoginPage(driver);
-            });
-
-            services.AddScoped(sp =>
-            {
-                var driver = sp.GetRequiredService<IWebDriver>();
                 return new HomePage(driver);
             });
 

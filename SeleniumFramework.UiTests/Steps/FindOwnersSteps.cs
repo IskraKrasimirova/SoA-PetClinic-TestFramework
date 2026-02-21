@@ -9,14 +9,12 @@ namespace SeleniumFramework.Steps
     [Binding]
     public class FindOwnersSteps
     {
-        private readonly IWebDriver _driver;
         private readonly ScenarioContext _scenarioContext;
         private readonly FindOwnersPage _findOwnersPage;
         private readonly NavigationBar _navigationBar;
 
-        public FindOwnersSteps(IWebDriver driver, ScenarioContext scenarioContext, FindOwnersPage findOwnersPage, NavigationBar navigationBar)
+        public FindOwnersSteps(ScenarioContext scenarioContext, FindOwnersPage findOwnersPage, NavigationBar navigationBar)
         {
-            this._driver = driver;
             this._scenarioContext = scenarioContext;
             this._findOwnersPage = findOwnersPage;
             this._navigationBar = navigationBar;
@@ -44,15 +42,6 @@ namespace SeleniumFramework.Steps
 
             var registeredOwner = _scenarioContext.Get<OwnerModel>(ContextConstants.RegisteredOwner);
             _findOwnersPage.SearchByLastName(registeredOwner.LastName);
-        }
-
-        [Then("the {string} title is displayed")]
-        public void ThenTheTitleIsDisplayed(string expectedTitle)
-        {
-            _findOwnersPage.VerifyIsAtFindOwnersPage();
-
-            var actualTitle = _findOwnersPage.GetTitleText();
-            Assert.That(actualTitle, Is.EqualTo(expectedTitle));
         }
     }
 }

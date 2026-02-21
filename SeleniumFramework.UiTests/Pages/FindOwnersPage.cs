@@ -10,15 +10,9 @@ namespace SeleniumFramework.Pages
         private IWebElement FindOwnerButton => _driver.FindElement(By.XPath("//button[text()='Find Owner']"));
         private IWebElement AddOwnerButton => _driver.FindElement(By.XPath("//a[text()='Add Owner']"));
         private IWebElement LogoImage => _driver.FindElement(By.XPath("//img[contains(@src,'spring')]"));
-        private IWebElement OwnersTable => _driver.FindElement(By.XPath("//table[@id='ownersTable']"));
 
         public FindOwnersPage(IWebDriver driver) : base(driver)
         {
-        }
-
-        public string GetTitleText()
-        {
-            return FindOwnersHeader.Text.Trim();
         }
 
         public void NavigateToAddOwnerPage()
@@ -44,6 +38,7 @@ namespace SeleniumFramework.Pages
             Assert.Multiple(() =>
             {
                 Assert.That(FindOwnersHeader.Displayed, "FindOwners header is not visible.");
+                Assert.That(FindOwnersHeader.Text.Trim(), Is.EqualTo("Find Owners"));
                 Assert.That(LastNameInput.Displayed, "Last Name field is not visible.");
                 Assert.That(FindOwnerButton.Displayed, "FindOwner button is not visible.");
                 Assert.That(AddOwnerButton.Displayed, "AddOwner button is not visible.");
