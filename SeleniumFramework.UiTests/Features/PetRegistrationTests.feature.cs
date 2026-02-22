@@ -118,7 +118,7 @@ namespace SeleniumFramework.Features
         
         private static global::Reqnroll.Formatters.RuntimeSupport.FeatureLevelCucumberMessages InitializeCucumberMessages()
         {
-            return new global::Reqnroll.Formatters.RuntimeSupport.FeatureLevelCucumberMessages("Features/PetRegistrationTests.feature.ndjson", 10);
+            return new global::Reqnroll.Formatters.RuntimeSupport.FeatureLevelCucumberMessages("Features/PetRegistrationTests.feature.ndjson", 12);
         }
         
         [global::NUnit.Framework.TestAttribute()]
@@ -180,6 +180,7 @@ await this.FeatureBackgroundAsync();
         [global::NUnit.Framework.TestCaseAttribute("Name", "Tom2-#&!", "only English letters and digits are allowed", "special characters", "Bug 9", "4", null)]
         [global::NUnit.Framework.TestCaseAttribute("Name", "Том", "only English letters and digits are allowed", "cyrilic letters", "Bug 9", "5", null)]
         [global::NUnit.Framework.TestCaseAttribute("BirthDate", "2050-12-12", "select valid date", "Future date", "Bug 10", "6", null)]
+        [global::NUnit.Framework.TestCaseAttribute("BirthDate", "01-10-2020", "invalid date", "Not valid date format", "Pass", "7", null)]
         public async global::System.Threading.Tasks.Task VerifyAUserIsNotAbleToAddAPetWithInvalidDetails(string field, string value, string message, string description, string actual, string @__pickleIndex, string[] exampleTags)
         {
             string[] @__tags = new string[] {
@@ -236,11 +237,11 @@ await this.FeatureBackgroundAsync();
                     "PetRegistration",
                     "Validation"};
             global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
-            string pickleIndex = "7";
+            string pickleIndex = "8";
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("User cannot register a pet with all mandatory fields empty", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
-#line 35
+#line 36
 this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -253,14 +254,57 @@ this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line 5
 await this.FeatureBackgroundAsync();
 #line hidden
-#line 36
+#line 37
  await testRunner.GivenAsync("I am on the Add New Pet page for an existing owner", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-#line 37
+#line 38
  await testRunner.WhenAsync("I try to add a pet without filling all mandatory fields", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 38
+#line 39
  await testRunner.ThenAsync("validation messages are displayed for all mandatory fields", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+            }
+            await this.ScenarioCleanupAsync();
+        }
+        
+        [global::NUnit.Framework.TestAttribute()]
+        [global::NUnit.Framework.DescriptionAttribute("User cannot register a pet with a name that already exists for the same owner")]
+        [global::NUnit.Framework.CategoryAttribute("PetRegistration")]
+        [global::NUnit.Framework.CategoryAttribute("Validation")]
+        public async global::System.Threading.Tasks.Task UserCannotRegisterAPetWithANameThatAlreadyExistsForTheSameOwner()
+        {
+            string[] tagsOfScenario = new string[] {
+                    "PetRegistration",
+                    "Validation"};
+            global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
+            string pickleIndex = "9";
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("User cannot register a pet with a name that already exists for the same owner", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            string[] tagsOfRule = ((string[])(null));
+            global::Reqnroll.RuleInfo ruleInfo = null;
+#line 43
+this.ScenarioInitialize(scenarioInfo, ruleInfo);
+#line hidden
+            if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
+            {
+                await testRunner.SkipScenarioAsync();
+            }
+            else
+            {
+                await this.ScenarioStartAsync();
+#line 5
+await this.FeatureBackgroundAsync();
+#line hidden
+#line 44
+ await testRunner.GivenAsync("I am on the Add New Pet page for an existing owner", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+#line hidden
+#line 45
+ await testRunner.AndAsync("the owner already has a pet with given name", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 46
+ await testRunner.WhenAsync("I try to add a new pet with the same name", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 47
+ await testRunner.ThenAsync("an appropriate error message \"is already in use\" is shown for field \"Name\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();

@@ -1,4 +1,6 @@
-﻿using Reqnroll;
+﻿using AngleSharp.Dom;
+using FluentAssertions.Types;
+using Reqnroll;
 using SeleniumFramework.Pages;
 using SeleniumFramework.Utilities.Constants;
 
@@ -27,6 +29,39 @@ namespace SeleniumFramework.Steps
             _addVisitPage.AddVisit(date, description);
 
             _scenarioContext[ContextConstants.VisitDescription] = description;
+        }
+
+        [When("I try to create a new visit with invalid details for {string} with {string}")]
+        public void WhenITryToCreateANewVisitWithInvalidDetailsForWith(string field, string value)
+        {
+            _addVisitPage.VerifyIsAtAddVisitPage();
+
+            string date;
+            string description;
+
+            switch (field)
+            {
+                case "Date":
+                    date = value;
+                    description = $"Visit {Guid.NewGuid()}";
+                    break;
+                case "Description":
+                    date = DateTime.Today.AddDays(5).ToString("yyyy-MM-dd");
+                    description = value;
+                    break;
+                default:
+                    throw new ArgumentException($"Unknown field: {field}");
+            }
+
+            _addVisitPage.AddVisit(date, description);
+        }
+
+        [Then("a proper error message {string} is shown for field {string}")]
+        public void ThenAProperErrorMessageIsShownForField(string expectedMessage, string field)
+        {
+            var actualMessage = _addVisitPage.GetFieldValidationMessage(field);
+
+            Assert.That(actualMessage, Is.EqualTo(expectedMessage), $"Validation message for field '{field}' is incorrect.");
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using OpenQA.Selenium;
+using SeleniumFramework.Utilities;
 using SeleniumFramework.Utilities.Extensions;
 
 namespace SeleniumFramework.Pages
@@ -22,6 +23,43 @@ namespace SeleniumFramework.Pages
             DescriptionInput.EnterText(description);
 
             AddVisitButton.Click();
+        }
+
+        public string GetFieldValidationMessage(string field)
+        {
+
+            IWebElement element;
+
+            switch (field)
+            {
+                case "Date":
+                    element = DateInput;
+                    break;
+                case "Description":
+                    element = DescriptionInput;
+                    break;
+                default:
+                    throw new ArgumentException($"Unknown field: {field}");
+            }
+
+            string? messageText = null;
+
+            Retry.Until(() =>
+            {
+                var messages = element.FindElements(By.XPath("./parent::div/span[@class='help-inline']"));
+
+                if (messages.Count == 0)
+                    throw new RetryException("Message not loaded yet.");
+
+                var actualMessage = messages.Last();
+
+                if (!actualMessage.Displayed)
+                    throw new RetryException("Message not visible yet.");
+
+                messageText = actualMessage.Text.Trim();
+            });
+
+            return messageText;
         }
 
         public void VerifyIsAtAddVisitPage()

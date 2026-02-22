@@ -41,6 +41,20 @@ namespace SeleniumFramework.Steps
             _addPetPage.VerifyIsAtAddPetPage();
         }
 
+        [Given("the owner already has a pet with given name")]
+        public void GivenTheOwnerAlreadyHasAPetWithGivenName()
+        {
+            var newPet = _petFactory.CreateDefault();
+            _addPetPage.AddNewPet(newPet);
+
+            _scenarioContext[ContextConstants.RegisteredPet] = newPet;
+
+            _ownerDetailsPage.VerifyIsAtOwnerDetailsPage();
+            _ownerDetailsPage.NavigateToAddNewPet();
+
+            _addPetPage.VerifyIsAtAddPetPage();
+        }
+
         [When("I create a new pet with valid details")]
         public void WhenICreateANewPetWithValidDetails()
         {
@@ -59,6 +73,11 @@ namespace SeleniumFramework.Steps
         [When("I try to create a new pet with invalid details for {string} with {string}")]
         public void WhenITryToCreateANewPetWithInvalidDetailsForWith(string field, string value)
         {
+            if (field == "Name" && !string.IsNullOrWhiteSpace(value))
+            {
+                value = $"{value}{Guid.NewGuid().ToString("N").Substring(0, 4)}";
+            }
+
             var newPet = _petFactory.CreateWith(field, value);
             _addPetPage.AddNewPet(newPet);
         }
@@ -68,11 +87,20 @@ namespace SeleniumFramework.Steps
         {
             var newPet = new PetModel
             {
-                Name = string.Empty, 
+                Name = string.Empty,
                 BirthDate = string.Empty,
-                Type = string.Empty 
+                Type = string.Empty
             };
 
+            _addPetPage.AddNewPet(newPet);
+        }
+
+        [When("I try to add a new pet with the same name")]
+        public void WhenITryToAddANewPetWithTheSameName()
+        {
+            var existingPet = _scenarioContext.Get<PetModel>(ContextConstants.RegisteredPet);
+
+            var newPet = _petFactory.CreateWith("Name", existingPet.Name);
             _addPetPage.AddNewPet(newPet);
         }
 

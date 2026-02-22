@@ -18,7 +18,6 @@ namespace SeleniumFramework.Pages
 
         public AddOwnerPage(IWebDriver driver) : base(driver)
         {
-            ((IJavaScriptExecutor)_driver).ExecuteScript("document.querySelectorAll('input').forEach(i => i.setAttribute('autocomplete','off'));");
         }
 
         public void AddNewOwner(OwnerModel model)
@@ -57,7 +56,6 @@ namespace SeleniumFramework.Pages
                     throw new ArgumentException($"Unknown field: {field}");
             }
 
-            //Telephone mandatory field validation message is inconsistent
             string? messageText = null;
 
             Retry.Until(() =>

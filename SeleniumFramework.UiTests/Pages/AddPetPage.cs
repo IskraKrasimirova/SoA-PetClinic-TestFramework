@@ -34,7 +34,7 @@ namespace SeleniumFramework.Pages
             AddPetButton.Click();
         }
 
-        public string GetFieldValidationMessage(string field)
+        public string? GetFieldValidationMessage(string field)
         {
             IWebElement element;
 
@@ -53,16 +53,24 @@ namespace SeleniumFramework.Pages
                     throw new ArgumentException($"Unknown field: {field}");
             }
 
-            IWebElement? messageElement = null;
+            string? messageText = null;
 
             Retry.Until(() =>
             {
-                messageElement = element.FindElement(By.XPath("./parent::div/span[@class='help-inline']"));
-                if (!messageElement.Displayed)
+                var messages = element.FindElements(By.XPath("./parent::div/span[@class='help-inline']"));
+
+                if (messages.Count == 0)
                     throw new RetryException("Message not loaded yet.");
+
+                var actualMessage = messages.Last();
+
+                if (!actualMessage.Displayed)
+                    throw new RetryException("Message not visible yet.");
+
+                messageText = actualMessage.Text.Trim();
             });
 
-            return messageElement.Text.Trim();
+            return messageText;
         }
 
         public void VerifyOwnerName(string expectedFullName)
