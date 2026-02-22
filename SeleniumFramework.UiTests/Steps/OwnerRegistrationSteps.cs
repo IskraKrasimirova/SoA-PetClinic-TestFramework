@@ -62,7 +62,6 @@ namespace SeleniumFramework.Steps
             _addOwnerPage.AddNewOwner(newOwner);
         }
 
-
         [Then("the owner appears in the search results with correct details")]
         public void ThenTheOwnerAppearsInTheSearchResultsWithCorrectDetails()
         {

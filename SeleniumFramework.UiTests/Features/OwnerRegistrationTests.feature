@@ -24,7 +24,7 @@ Examples:
 	| LastName  |             | must not be empty                                             | Empty              | Pass         |
 	| Address   |             | must not be empty                                             | Empty              | Pass         |
 	| City      |             | must not be empty                                             | Empty              | Pass         |
-	| Telephone |             | numeric value out of bounds (<10 digits>.<0 digits> expected) | Empty              | Pass (Bug)   |
+	| Telephone |             | must not be empty                                             | Empty              | Pass (Bug 7) |
 	| FirstName | a           | min length 2 characters                                       | 1 letter           | Bug 4        |
 	| LastName  | B           | min length 2 characters                                       | 1 letter           | Bug 4        |
 	| City      | c           | min length 2 characters                                       | 1 letter           | Bug 4        |
@@ -40,9 +40,9 @@ Examples:
 	| Telephone | 11234567890 | numeric value out of bounds (<10 digits>.<0 digits> expected) | exceeds 10 digits  | Pass (Bug 6) |
 
 
-#	Telephone mandatory field validation is inconsistent in the application.
-#Sometimes shows "must not be empty", sometimes "numeric value out of bounds".
-#Test accepts both as valid outcomes.
+# Telephone mandatory field validation message is inconsistent.
+# Sometimes shows "must not be empty", sometimes "numeric value out of bounds (<10 digits>.<0 digits> expected)".
+# Test accepts both as valid outcomes.
 @OwnerRegistration @Validation
 Scenario: Verify a user is not able to register an owner with missing mandatory fields
 	When I try to create a new owner without filling all mandatory fields

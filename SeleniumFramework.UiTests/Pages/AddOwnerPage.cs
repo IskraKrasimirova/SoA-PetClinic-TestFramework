@@ -56,9 +56,14 @@ namespace SeleniumFramework.Pages
                     throw new ArgumentException($"Unknown field: {field}");
             }
 
-            var messageElement = element.FindElement(By.XPath("./parent::div/span[@class='help-inline']"));
+            //var messageElement = element.FindElement(By.XPath("./parent::div/span[@class='help-inline']"));
+            //return messageElement.Text.Trim();
 
-            return messageElement.Text.Trim();
+            //Telephone mandatory field validation message is inconsistent.
+            var messages = element.FindElements(By.XPath("./parent::div/span[@class='help-inline']"));
+            var actualMessage = messages.Last().Text.Trim();
+
+            return actualMessage;
         }
 
         public void VerifyIsAtAddOwnerPage()
