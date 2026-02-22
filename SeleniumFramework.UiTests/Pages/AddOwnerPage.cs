@@ -1,5 +1,6 @@
 ﻿using OpenQA.Selenium;
 using SeleniumFramework.Models;
+using SeleniumFramework.Utilities;
 using SeleniumFramework.Utilities.Extensions;
 
 namespace SeleniumFramework.Pages
@@ -31,7 +32,7 @@ namespace SeleniumFramework.Pages
             AddOwnerButton.Click();
         }
 
-        public string GetFieldValidationMessage(string field)
+        public string? GetFieldValidationMessage(string field)
         {
             IWebElement element;
 
@@ -56,14 +57,25 @@ namespace SeleniumFramework.Pages
                     throw new ArgumentException($"Unknown field: {field}");
             }
 
-            //var messageElement = element.FindElement(By.XPath("./parent::div/span[@class='help-inline']"));
-            //return messageElement.Text.Trim();
+            //Telephone mandatory field validation message is inconsistent
+            string? messageText = null;
 
-            //Telephone mandatory field validation message is inconsistent.
-            var messages = element.FindElements(By.XPath("./parent::div/span[@class='help-inline']"));
-            var actualMessage = messages.Last().Text.Trim();
+            Retry.Until(() =>
+            {
+                var messages = element.FindElements(By.XPath("./parent::div/span[@class='help-inline']"));
 
-            return actualMessage;
+                if (messages.Count == 0)
+                    throw new RetryException("Message not loaded yet.");
+
+                var actualMessage = messages.Last();
+
+                if (!actualMessage.Displayed)
+                    throw new RetryException("Message not visible yet.");
+
+                messageText = actualMessage.Text.Trim();
+            });
+
+            return messageText;
         }
 
         public void VerifyIsAtAddOwnerPage()

@@ -1,6 +1,7 @@
 ﻿using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
 using SeleniumFramework.Models;
+using SeleniumFramework.Utilities;
 using SeleniumFramework.Utilities.Extensions;
 
 namespace SeleniumFramework.Pages
@@ -23,10 +24,45 @@ namespace SeleniumFramework.Pages
         {
             NameInput.EnterText(model.Name);
             _driver.EnterDate(BirthDateInput, model.BirthDate);
-            var select = new SelectElement(TypeSelect); 
-            select.SelectByText(model.Type);
+            var select = new SelectElement(TypeSelect);
+
+            if (!string.IsNullOrEmpty(model.Type))
+            {
+                select.SelectByText(model.Type);
+            }
 
             AddPetButton.Click();
+        }
+
+        public string GetFieldValidationMessage(string field)
+        {
+            IWebElement element;
+
+            switch (field)
+            {
+                case "Name":
+                    element = NameInput;
+                    break;
+                case "BirthDate":
+                    element = BirthDateInput;
+                    break;
+                case "Type":
+                    element = TypeSelect;
+                    break;
+                default:
+                    throw new ArgumentException($"Unknown field: {field}");
+            }
+
+            IWebElement? messageElement = null;
+
+            Retry.Until(() =>
+            {
+                messageElement = element.FindElement(By.XPath("./parent::div/span[@class='help-inline']"));
+                if (!messageElement.Displayed)
+                    throw new RetryException("Message not loaded yet.");
+            });
+
+            return messageElement.Text.Trim();
         }
 
         public void VerifyOwnerName(string expectedFullName)

@@ -175,7 +175,7 @@ await this.FeatureBackgroundAsync();
         [global::NUnit.Framework.TestCaseAttribute("LastName", "", "must not be empty", "Empty", "Pass", "2", null)]
         [global::NUnit.Framework.TestCaseAttribute("Address", "", "must not be empty", "Empty", "Pass", "3", null)]
         [global::NUnit.Framework.TestCaseAttribute("City", "", "must not be empty", "Empty", "Pass", "4", null)]
-        [global::NUnit.Framework.TestCaseAttribute("Telephone", "", "numeric value out of bounds (<10 digits>.<0 digits> expected)", "Empty", "Pass (Bug)", "5", null)]
+        [global::NUnit.Framework.TestCaseAttribute("Telephone", "", "must not be empty", "Empty", "Pass (Bug 7)", "5", null)]
         [global::NUnit.Framework.TestCaseAttribute("FirstName", "a", "min length 2 characters", "1 letter", "Bug 4", "6", null)]
         [global::NUnit.Framework.TestCaseAttribute("LastName", "B", "min length 2 characters", "1 letter", "Bug 4", "7", null)]
         [global::NUnit.Framework.TestCaseAttribute("City", "c", "min length 2 characters", "1 letter", "Bug 4", "8", null)]

@@ -118,21 +118,21 @@ namespace SeleniumFramework.Features
         
         private static global::Reqnroll.Formatters.RuntimeSupport.FeatureLevelCucumberMessages InitializeCucumberMessages()
         {
-            return new global::Reqnroll.Formatters.RuntimeSupport.FeatureLevelCucumberMessages("Features/PetRegistrationTests.feature.ndjson", 3);
+            return new global::Reqnroll.Formatters.RuntimeSupport.FeatureLevelCucumberMessages("Features/PetRegistrationTests.feature.ndjson", 10);
         }
         
         [global::NUnit.Framework.TestAttribute()]
-        [global::NUnit.Framework.DescriptionAttribute("Verify user is able to add a new pet to an owner successfully")]
+        [global::NUnit.Framework.DescriptionAttribute("Verify a user is able to add a new pet to an owner successfully")]
         [global::NUnit.Framework.CategoryAttribute("PetRegistration")]
         [global::NUnit.Framework.CategoryAttribute("E2E")]
-        public async global::System.Threading.Tasks.Task VerifyUserIsAbleToAddANewPetToAnOwnerSuccessfully()
+        public async global::System.Threading.Tasks.Task VerifyAUserIsAbleToAddANewPetToAnOwnerSuccessfully()
         {
             string[] tagsOfScenario = new string[] {
                     "PetRegistration",
                     "E2E"};
             global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
             string pickleIndex = "0";
-            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Verify user is able to add a new pet to an owner successfully", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Verify a user is able to add a new pet to an owner successfully", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
 #line 10
@@ -165,6 +165,102 @@ await this.FeatureBackgroundAsync();
 #line hidden
 #line 16
  await testRunner.ThenAsync("the pet is displayed in the Owner Details page", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+            }
+            await this.ScenarioCleanupAsync();
+        }
+        
+        [global::NUnit.Framework.TestAttribute()]
+        [global::NUnit.Framework.DescriptionAttribute("Verify a user is not able to add a pet with invalid details")]
+        [global::NUnit.Framework.CategoryAttribute("PetRegistration")]
+        [global::NUnit.Framework.CategoryAttribute("Validation")]
+        [global::NUnit.Framework.TestCaseAttribute("Name", "", "is required", "Empty", "Pass", "1", null)]
+        [global::NUnit.Framework.TestCaseAttribute("BirthDate", "", "is required", "Empty", "Pass", "2", null)]
+        [global::NUnit.Framework.TestCaseAttribute("Type", "", "is required", "Empty", "Pass", "3", null)]
+        [global::NUnit.Framework.TestCaseAttribute("Name", "Tom2-#&!", "only English letters and digits are allowed", "special characters", "Bug 9", "4", null)]
+        [global::NUnit.Framework.TestCaseAttribute("Name", "Том", "only English letters and digits are allowed", "cyrilic letters", "Bug 9", "5", null)]
+        [global::NUnit.Framework.TestCaseAttribute("BirthDate", "2050-12-12", "select valid date", "Future date", "Bug 10", "6", null)]
+        public async global::System.Threading.Tasks.Task VerifyAUserIsNotAbleToAddAPetWithInvalidDetails(string field, string value, string message, string description, string actual, string @__pickleIndex, string[] exampleTags)
+        {
+            string[] @__tags = new string[] {
+                    "PetRegistration",
+                    "Validation"};
+            if ((exampleTags != null))
+            {
+                @__tags = System.Linq.Enumerable.ToArray(System.Linq.Enumerable.Concat(@__tags, exampleTags));
+            }
+            string[] tagsOfScenario = @__tags;
+            global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
+            argumentsOfScenario.Add("field", field);
+            argumentsOfScenario.Add("value", value);
+            argumentsOfScenario.Add("message", message);
+            argumentsOfScenario.Add("#Description", description);
+            argumentsOfScenario.Add("#Actual", actual);
+            string pickleIndex = @__pickleIndex;
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Verify a user is not able to add a pet with invalid details", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            string[] tagsOfRule = ((string[])(null));
+            global::Reqnroll.RuleInfo ruleInfo = null;
+#line 20
+this.ScenarioInitialize(scenarioInfo, ruleInfo);
+#line hidden
+            if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
+            {
+                await testRunner.SkipScenarioAsync();
+            }
+            else
+            {
+                await this.ScenarioStartAsync();
+#line 5
+await this.FeatureBackgroundAsync();
+#line hidden
+#line 21
+ await testRunner.GivenAsync("I am on the Add New Pet page for an existing owner", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+#line hidden
+#line 22
+ await testRunner.WhenAsync(string.Format("I try to create a new pet with invalid details for \"{0}\" with \"{1}\"", field, value), ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 23
+ await testRunner.ThenAsync(string.Format("an appropriate error message \"{0}\" is shown for field \"{1}\"", message, field), ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+            }
+            await this.ScenarioCleanupAsync();
+        }
+        
+        [global::NUnit.Framework.TestAttribute()]
+        [global::NUnit.Framework.DescriptionAttribute("User cannot register a pet with all mandatory fields empty")]
+        [global::NUnit.Framework.CategoryAttribute("PetRegistration")]
+        [global::NUnit.Framework.CategoryAttribute("Validation")]
+        public async global::System.Threading.Tasks.Task UserCannotRegisterAPetWithAllMandatoryFieldsEmpty()
+        {
+            string[] tagsOfScenario = new string[] {
+                    "PetRegistration",
+                    "Validation"};
+            global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
+            string pickleIndex = "7";
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("User cannot register a pet with all mandatory fields empty", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            string[] tagsOfRule = ((string[])(null));
+            global::Reqnroll.RuleInfo ruleInfo = null;
+#line 35
+this.ScenarioInitialize(scenarioInfo, ruleInfo);
+#line hidden
+            if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
+            {
+                await testRunner.SkipScenarioAsync();
+            }
+            else
+            {
+                await this.ScenarioStartAsync();
+#line 5
+await this.FeatureBackgroundAsync();
+#line hidden
+#line 36
+ await testRunner.GivenAsync("I am on the Add New Pet page for an existing owner", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+#line hidden
+#line 37
+ await testRunner.WhenAsync("I try to add a pet without filling all mandatory fields", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 38
+ await testRunner.ThenAsync("validation messages are displayed for all mandatory fields", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();

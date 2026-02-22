@@ -18,5 +18,27 @@ namespace SeleniumFramework.Models.Factory
 
             return pet;
         }
+
+        public PetModel CreateWith(string field, string value)
+        {
+            var pet = CreateDefault();
+
+            switch (field)
+            {
+                case "Name":
+                    pet.Name = value;
+                    break;
+                case "BirthDate":
+                    pet.BirthDate = value;
+                    break;
+                case "Type":
+                    pet.Type = value;
+                    break;
+                default:
+                    throw new ArgumentException($"Unknown field: {field}");
+            }
+
+            return pet;
+        }
     }
 }
