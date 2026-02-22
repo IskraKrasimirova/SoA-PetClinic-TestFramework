@@ -25,9 +25,9 @@ Examples:
 	| Address   |             | must not be empty                                             | Empty              | Pass         |
 	| City      |             | must not be empty                                             | Empty              | Pass         |
 	| Telephone |             | must not be empty                                             | Empty              | Pass (Bug 7) |
-	| FirstName | a           | min length 2 characters                                       | 1 letter           | Bug 4        |
-	| LastName  | B           | min length 2 characters                                       | 1 letter           | Bug 4        |
-	| City      | c           | min length 2 characters                                       | 1 letter           | Bug 4        |
+	| FirstName | a           | min length 2 characters                                       | 1 character        | Bug 4        |
+	| LastName  | B           | min length 2 characters                                       | 1 character        | Bug 4        |
+	| City      | c           | min length 2 characters                                       | 1 character        | Bug 4        |
 	| FirstName | Ana-Maria#  | only English letters are allowed                              | special characters | Bug 1        |
 	| LastName  | O'Conner    | only English letters are allowed                              | special characters | Bug 2        |
 	| City      | @@!         | only English letters are allowed                              | special characters | Bug 3        |

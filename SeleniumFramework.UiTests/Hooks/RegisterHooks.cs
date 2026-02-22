@@ -26,6 +26,7 @@ namespace SeleniumFramework.Hooks
         public void CloseBrowser()
         {
             _driver.Quit();
+            _driver.Dispose();
         }
     }
 }
