@@ -5,7 +5,6 @@ using SeleniumFramework.ApiTests.Apis;
 using SeleniumFramework.ApiTests.Models.Dtos;
 using SeleniumFramework.ApiTests.Utils;
 using SeleniumFramework.Models;
-using System.Reflection.Metadata;
 
 namespace SeleniumFramework.ApiTests.Steps
 {

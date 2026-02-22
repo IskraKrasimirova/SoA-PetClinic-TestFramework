@@ -15,12 +15,6 @@ public class OwnersApi
         _uri = "petclinic/api/owners";
     }
 
-    public RestResponse<OwnerDto> GetUserById(int id)
-    {
-        var request = new RestRequest($"{_uri}/{id}", Method.Get);
-        return _client.Execute<OwnerDto>(request);
-    }
-
     public RestResponse<IReadOnlyCollection<OwnerDto>> GetOwners()
     {
         var request = new RestRequest(_uri, Method.Get);

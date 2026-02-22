@@ -20,20 +20,30 @@ namespace SeleniumFramework.Models.Factory
             return owner;
         }
 
-        public OwnerModel CreateWith(
-            string firstName = null, 
-            string lastName = null, 
-            string address = null, 
-            string city = null, 
-            string telephone = null)
+        public OwnerModel CreateWith(string field, string value)
         {
             var owner = CreateDefault();
 
-            if (firstName != null) owner.FirstName = firstName;
-            if (lastName != null) owner.LastName = lastName;
-            if (address != null) owner.Address = address;
-            if (city != null) owner.City = city;
-            if (telephone != null) owner.Telephone = telephone;
+            switch (field)
+            {
+                case "FirstName":
+                    owner.FirstName = value;
+                    break;
+                case "LastName":
+                    owner.LastName = value;
+                    break;
+                case "Address":
+                    owner.Address = value;
+                    break;
+                case "City":
+                    owner.City = value;
+                    break;
+                case "Telephone":
+                    owner.Telephone = value;
+                    break;
+                default:
+                    throw new ArgumentException($"Unknown field: {field}");
+            }
 
             return owner;
         }

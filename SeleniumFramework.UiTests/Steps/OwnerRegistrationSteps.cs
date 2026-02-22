@@ -36,6 +36,33 @@ namespace SeleniumFramework.Steps
             _scenarioContext[ContextConstants.RegisteredOwner] = newOwner;
         }
 
+        [When("I try to create a new owner with invalid details for {string} with {string}")]
+        public void WhenITryToCreateANewOwnerWithInvalidDetailsForWith(string field, string value)
+        {
+            _addOwnerPage.VerifyIsAtAddOwnerPage();
+            
+            var newOwner = _ownerFactory.CreateWith(field, value);
+            _addOwnerPage.AddNewOwner(newOwner);
+        }
+
+        [When("I try to create a new owner without filling all mandatory fields")]
+        public void WhenITryToCreateANewOwnerWithoutFillingAllMandatoryFields()
+        {
+            _addOwnerPage.VerifyIsAtAddOwnerPage();
+
+            var newOwner = new OwnerModel()
+            {
+                FirstName = "",
+                LastName = "",
+                Address = "",
+                City = "",
+                Telephone = ""
+            };
+
+            _addOwnerPage.AddNewOwner(newOwner);
+        }
+
+
         [Then("the owner appears in the search results with correct details")]
         public void ThenTheOwnerAppearsInTheSearchResultsWithCorrectDetails()
         {
@@ -53,6 +80,27 @@ namespace SeleniumFramework.Steps
             {
                 throw new Exception("Not on expected page after owner registration.");
             }
+        }
+
+        [Then("an appropriate error message {string} is displayed for field {string}")]
+        public void ThenAnAppropriateErrorMessageIsDisplayedForField(string expectedMessage, string field)
+        {
+            var actualMessage = _addOwnerPage.GetFieldValidationMessage(field);
+
+            Assert.That(actualMessage, Is.EqualTo(expectedMessage), $"Validation message for field '{field}' is incorrect.");
+        }
+
+        [Then("appropriate error messages are displayed for all mandatory fields")]
+        public void ThenAppropriateErrorMessagesAreDisplayedForAllMandatoryFields()
+        {
+            Assert.Multiple(() => 
+            { 
+                Assert.That(_addOwnerPage.GetFieldValidationMessage("FirstName"), Is.EqualTo("must not be empty")); 
+                Assert.That(_addOwnerPage.GetFieldValidationMessage("LastName"), Is.EqualTo("must not be empty")); 
+                Assert.That(_addOwnerPage.GetFieldValidationMessage("Address"), Is.EqualTo("must not be empty")); 
+                Assert.That(_addOwnerPage.GetFieldValidationMessage("City"), Is.EqualTo("must not be empty")); 
+                Assert.That(_addOwnerPage.GetFieldValidationMessage("Telephone"), Is.EqualTo("numeric value out of bounds (<10 digits>.<0 digits> expected)").Or.EqualTo("must not be empty")); 
+            });
         }
     }
 }

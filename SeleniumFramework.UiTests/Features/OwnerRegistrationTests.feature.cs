@@ -121,21 +121,21 @@ namespace SeleniumFramework.Features
         
         private static global::Reqnroll.Formatters.RuntimeSupport.FeatureLevelCucumberMessages InitializeCucumberMessages()
         {
-            return new global::Reqnroll.Formatters.RuntimeSupport.FeatureLevelCucumberMessages("Features/OwnerRegistrationTests.feature.ndjson", 3);
+            return new global::Reqnroll.Formatters.RuntimeSupport.FeatureLevelCucumberMessages("Features/OwnerRegistrationTests.feature.ndjson", 22);
         }
         
         [global::NUnit.Framework.TestAttribute()]
-        [global::NUnit.Framework.DescriptionAttribute("Verify user is able to register an owner successfully")]
+        [global::NUnit.Framework.DescriptionAttribute("Verify a user is able to register an owner successfully")]
         [global::NUnit.Framework.CategoryAttribute("OwnerRegistration")]
         [global::NUnit.Framework.CategoryAttribute("E2E")]
-        public async global::System.Threading.Tasks.Task VerifyUserIsAbleToRegisterAnOwnerSuccessfully()
+        public async global::System.Threading.Tasks.Task VerifyAUserIsAbleToRegisterAnOwnerSuccessfully()
         {
             string[] tagsOfScenario = new string[] {
                     "OwnerRegistration",
                     "E2E"};
             global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
             string pickleIndex = "0";
-            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Verify user is able to register an owner successfully", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Verify a user is able to register an owner successfully", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
 #line 11
@@ -162,6 +162,108 @@ await this.FeatureBackgroundAsync();
 #line hidden
 #line 15
  await testRunner.AndAsync("the owner appears in the search results with correct details", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+            }
+            await this.ScenarioCleanupAsync();
+        }
+        
+        [global::NUnit.Framework.TestAttribute()]
+        [global::NUnit.Framework.DescriptionAttribute("Verify a user is not able to register an owner with invalid details")]
+        [global::NUnit.Framework.CategoryAttribute("OwnerRegistration")]
+        [global::NUnit.Framework.CategoryAttribute("Validation")]
+        [global::NUnit.Framework.TestCaseAttribute("FirstName", "", "must not be empty", "Empty", "Pass", "1", null)]
+        [global::NUnit.Framework.TestCaseAttribute("LastName", "", "must not be empty", "Empty", "Pass", "2", null)]
+        [global::NUnit.Framework.TestCaseAttribute("Address", "", "must not be empty", "Empty", "Pass", "3", null)]
+        [global::NUnit.Framework.TestCaseAttribute("City", "", "must not be empty", "Empty", "Pass", "4", null)]
+        [global::NUnit.Framework.TestCaseAttribute("Telephone", "", "numeric value out of bounds (<10 digits>.<0 digits> expected)", "Empty", "Pass (Bug)", "5", null)]
+        [global::NUnit.Framework.TestCaseAttribute("FirstName", "a", "min length 2 characters", "1 letter", "Bug 4", "6", null)]
+        [global::NUnit.Framework.TestCaseAttribute("LastName", "B", "min length 2 characters", "1 letter", "Bug 4", "7", null)]
+        [global::NUnit.Framework.TestCaseAttribute("City", "c", "min length 2 characters", "1 letter", "Bug 4", "8", null)]
+        [global::NUnit.Framework.TestCaseAttribute("FirstName", "Ana-Maria#", "only English letters are allowed", "special characters", "Bug 1", "9", null)]
+        [global::NUnit.Framework.TestCaseAttribute("LastName", "O\'Conner", "only English letters are allowed", "special characters", "Bug 2", "10", null)]
+        [global::NUnit.Framework.TestCaseAttribute("City", "@@!", "only English letters are allowed", "special characters", "Bug 3", "11", null)]
+        [global::NUnit.Framework.TestCaseAttribute("FirstName", "Искра", "only English letters are allowed", "cyrilic letters", "Bug 1", "12", null)]
+        [global::NUnit.Framework.TestCaseAttribute("LastName", "123", "only English letters are allowed", "digits", "Bug 2", "13", null)]
+        [global::NUnit.Framework.TestCaseAttribute("City", "София", "only English letters are allowed", "cyrilic letters", "Bug 3", "14", null)]
+        [global::NUnit.Framework.TestCaseAttribute("City", "123Sofia", "only English letters are allowed", "digits", "Bug 3", "15", null)]
+        [global::NUnit.Framework.TestCaseAttribute("Telephone", "Abc", "numeric value out of bounds (<10 digits>.<0 digits> expected)", "letters", "Pass (Bug 5)", "16", null)]
+        [global::NUnit.Framework.TestCaseAttribute("Telephone", "!@#$%&*", "numeric value out of bounds (<10 digits>.<0 digits> expected)", "special characters", "Pass (Bug 5)", "17", null)]
+        [global::NUnit.Framework.TestCaseAttribute("Telephone", "11234567890", "numeric value out of bounds (<10 digits>.<0 digits> expected)", "exceeds 10 digits", "Pass (Bug 6)", "18", null)]
+        public async global::System.Threading.Tasks.Task VerifyAUserIsNotAbleToRegisterAnOwnerWithInvalidDetails(string field, string value, string message, string description, string actual, string @__pickleIndex, string[] exampleTags)
+        {
+            string[] @__tags = new string[] {
+                    "OwnerRegistration",
+                    "Validation"};
+            if ((exampleTags != null))
+            {
+                @__tags = System.Linq.Enumerable.ToArray(System.Linq.Enumerable.Concat(@__tags, exampleTags));
+            }
+            string[] tagsOfScenario = @__tags;
+            global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
+            argumentsOfScenario.Add("field", field);
+            argumentsOfScenario.Add("value", value);
+            argumentsOfScenario.Add("message", message);
+            argumentsOfScenario.Add("#Description", description);
+            argumentsOfScenario.Add("#Actual", actual);
+            string pickleIndex = @__pickleIndex;
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Verify a user is not able to register an owner with invalid details", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            string[] tagsOfRule = ((string[])(null));
+            global::Reqnroll.RuleInfo ruleInfo = null;
+#line 18
+this.ScenarioInitialize(scenarioInfo, ruleInfo);
+#line hidden
+            if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
+            {
+                await testRunner.SkipScenarioAsync();
+            }
+            else
+            {
+                await this.ScenarioStartAsync();
+#line 5
+await this.FeatureBackgroundAsync();
+#line hidden
+#line 19
+ await testRunner.WhenAsync(string.Format("I try to create a new owner with invalid details for \"{0}\" with \"{1}\"", field, value), ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 20
+ await testRunner.ThenAsync(string.Format("an appropriate error message \"{0}\" is displayed for field \"{1}\"", message, field), ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+            }
+            await this.ScenarioCleanupAsync();
+        }
+        
+        [global::NUnit.Framework.TestAttribute()]
+        [global::NUnit.Framework.DescriptionAttribute("Verify a user is not able to register an owner with missing mandatory fields")]
+        [global::NUnit.Framework.CategoryAttribute("OwnerRegistration")]
+        [global::NUnit.Framework.CategoryAttribute("Validation")]
+        public async global::System.Threading.Tasks.Task VerifyAUserIsNotAbleToRegisterAnOwnerWithMissingMandatoryFields()
+        {
+            string[] tagsOfScenario = new string[] {
+                    "OwnerRegistration",
+                    "Validation"};
+            global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
+            string pickleIndex = "19";
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Verify a user is not able to register an owner with missing mandatory fields", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            string[] tagsOfRule = ((string[])(null));
+            global::Reqnroll.RuleInfo ruleInfo = null;
+#line 47
+this.ScenarioInitialize(scenarioInfo, ruleInfo);
+#line hidden
+            if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
+            {
+                await testRunner.SkipScenarioAsync();
+            }
+            else
+            {
+                await this.ScenarioStartAsync();
+#line 5
+await this.FeatureBackgroundAsync();
+#line hidden
+#line 48
+ await testRunner.WhenAsync("I try to create a new owner without filling all mandatory fields", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 49
+ await testRunner.ThenAsync("appropriate error messages are displayed for all mandatory fields", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();

@@ -17,6 +17,7 @@ namespace SeleniumFramework.Pages
 
         public AddOwnerPage(IWebDriver driver) : base(driver)
         {
+            ((IJavaScriptExecutor)_driver).ExecuteScript("document.querySelectorAll('input').forEach(i => i.setAttribute('autocomplete','off'));");
         }
 
         public void AddNewOwner(OwnerModel model)
@@ -28,6 +29,36 @@ namespace SeleniumFramework.Pages
             TelerhoneInput.EnterText(model.Telephone);
 
             AddOwnerButton.Click();
+        }
+
+        public string GetFieldValidationMessage(string field)
+        {
+            IWebElement element;
+
+            switch (field)
+            {
+                case "FirstName":
+                    element = FirstNameInput;
+                    break;
+                case "LastName":
+                    element = LastNameInput;
+                    break;
+                case "Address":
+                    element = AddressInput;
+                    break;
+                case "City":
+                    element = CityInput;
+                    break;
+                case "Telephone":
+                    element = TelerhoneInput;
+                    break;
+                default:
+                    throw new ArgumentException($"Unknown field: {field}");
+            }
+
+            var messageElement = element.FindElement(By.XPath("./parent::div/span[@class='help-inline']"));
+
+            return messageElement.Text.Trim();
         }
 
         public void VerifyIsAtAddOwnerPage()
