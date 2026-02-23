@@ -1,4 +1,5 @@
-﻿using OpenQA.Selenium;
+﻿using FluentAssertions.Equivalency;
+using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
 using SeleniumFramework.Models;
 using SeleniumFramework.Utilities;
@@ -62,16 +63,50 @@ namespace SeleniumFramework.Pages
                 if (messages.Count == 0)
                     throw new RetryException("Message not loaded yet.");
 
-                var actualMessage = messages.Last();
+                var actualMessage = messages.First();
 
                 if (!actualMessage.Displayed)
                     throw new RetryException("Message not visible yet.");
 
                 messageText = actualMessage.Text.Trim();
-            });
+            },  waitInMilliseconds: 700);
 
             return messageText;
         }
+
+        //public string? GetFieldValidationMessage(string field)
+        //{
+        //    string fieldId = field switch
+        //    {
+        //        "Name" => "name",
+        //        "BirthDate" => "birthDate",
+        //        "Type" => "type",
+        //        _ => throw new ArgumentException($"Unknown field: {field}")
+        //    };
+
+        //    // Най-стабилният възможен локатор:
+        //    // намира първия help-inline след елемента, без значение структурата на DOM
+        //    string xpath = $"//*[@id='{fieldId}']/following::span[contains(@class,'help-inline')][1]";
+
+        //    string? messageText = null;
+
+        //    Retry.Until(() =>
+        //    {
+        //        var messages = _driver.FindElements(By.XPath(xpath));
+
+        //        if (messages.Count == 0)
+        //            throw new RetryException("Validation message not yet present.");
+
+        //        var actualMessage = messages.First();
+
+        //        if (!actualMessage.Displayed)
+        //            throw new RetryException("Validation message is in DOM but not visible yet.");
+
+        //        messageText = actualMessage.Text.Trim();
+        //    }, waitInMilliseconds: 1000); 
+
+        //    return messageText;
+        //}
 
         public void VerifyOwnerName(string expectedFullName)
         {

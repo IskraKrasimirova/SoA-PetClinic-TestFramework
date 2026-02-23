@@ -1,5 +1,7 @@
 ﻿using OpenQA.Selenium;
+using Reqnroll;
 using SeleniumFramework.Models;
+using SeleniumFramework.Utilities;
 using SeleniumFramework.Utilities.Extensions;
 
 namespace SeleniumFramework.Pages
@@ -29,10 +31,19 @@ namespace SeleniumFramework.Pages
 
         public void VerifyOwnerExists(OwnerModel expectedOwner)
         {
-            var fullName = $"{expectedOwner.FirstName} {expectedOwner.LastName}";
-            IWebElement? ownerRow = FindOwnerRowByFullName(fullName);
+            _driver.WaitUntilUrlContains($"owners?lastName={expectedOwner.LastName}");
 
-            Assert.That(ownerRow, Is.Not.Null, $"Owner with fullName {fullName} was not found.");
+            var fullName = $"{expectedOwner.FirstName} {expectedOwner.LastName}";
+            var ownerRow = FindOwnerRowByFullName(fullName);
+
+            //IWebElement? ownerRow = null;
+
+            //Retry.Until(() =>
+            //{
+            //    ownerRow = FindOwnerRowByFullName(fullName);
+            //    if (ownerRow == null)
+            //        throw new RetryException($"Owner with fullName {fullName} was not found.");
+            //}, waitInMilliseconds: 700);
 
             var headers = OwnersTable.FindElements(By.XPath(".//thead/tr/th"))
                 .Select(th => th.Text.Trim())
@@ -57,8 +68,9 @@ namespace SeleniumFramework.Pages
 
         public bool IsAtOwnersResultsPage()
         {
-            return _driver.Url.Contains("owners?lastName=");
+            return _driver.Url.Contains("owners?lastName=") && OwnerRows.Count > 0;
         }
+
 
         public void VerifyIsAtOwnersResultsPage()
         {
