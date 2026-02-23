@@ -13,7 +13,7 @@ namespace SeleniumFramework.Pages
         private IWebElement LogoImage => _driver.FindElement(By.XPath("//img[contains(@src,'spring')]"));
         private IReadOnlyCollection<IWebElement> OwnerRows => _driver.FindElements(By.XPath("//table[@id='ownersTable']/tbody/tr"));
         private IWebElement? FindOwnerRowByFullName(string fullName) =>
-            _driver.FindElements(By.XPath($"//table[@id='ownersTable']//td[text()='{fullName}']/parent::tr"))
+            _driver.FindElements(By.XPath($"//table[@id='ownersTable']//a[text()='{fullName}']/ancestor::tr"))
            .FirstOrDefault();
 
 
@@ -31,19 +31,8 @@ namespace SeleniumFramework.Pages
 
         public void VerifyOwnerExists(OwnerModel expectedOwner)
         {
-            _driver.WaitUntilUrlContains($"owners?lastName={expectedOwner.LastName}");
-
             var fullName = $"{expectedOwner.FirstName} {expectedOwner.LastName}";
             var ownerRow = FindOwnerRowByFullName(fullName);
-
-            //IWebElement? ownerRow = null;
-
-            //Retry.Until(() =>
-            //{
-            //    ownerRow = FindOwnerRowByFullName(fullName);
-            //    if (ownerRow == null)
-            //        throw new RetryException($"Owner with fullName {fullName} was not found.");
-            //}, waitInMilliseconds: 700);
 
             var headers = OwnersTable.FindElements(By.XPath(".//thead/tr/th"))
                 .Select(th => th.Text.Trim())
