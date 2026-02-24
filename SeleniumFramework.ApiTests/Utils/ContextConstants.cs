@@ -10,6 +10,7 @@
         public const string SelectedPetType = "SelectedPetType";
         public const string NewPet = "NewPet";
         public const string CreatedPet = "CreatedPet";
+        public const string CreatedOwner = "CreatedOwner";
         public const string RawResponse = "RawResponse";
     }
 }

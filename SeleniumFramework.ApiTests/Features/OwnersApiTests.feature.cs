@@ -105,7 +105,7 @@ namespace SeleniumFramework.ApiTests.Features
         
         private static global::Reqnroll.Formatters.RuntimeSupport.FeatureLevelCucumberMessages InitializeCucumberMessages()
         {
-            return new global::Reqnroll.Formatters.RuntimeSupport.FeatureLevelCucumberMessages("Features/OwnersApiTests.feature.ndjson", 4);
+            return new global::Reqnroll.Formatters.RuntimeSupport.FeatureLevelCucumberMessages("Features/OwnersApiTests.feature.ndjson", 5);
         }
         
         [global::NUnit.Framework.TestAttribute()]
@@ -206,6 +206,69 @@ this.ScenarioInitialize(scenarioInfo, ruleInfo);
  await testRunner.AndAsync("the response status code should be 200", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
 #line 26
+ await testRunner.AndAsync("the retrieved pet matches the created pet data", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+            }
+            await this.ScenarioCleanupAsync();
+        }
+        
+        [global::NUnit.Framework.TestAttribute()]
+        [global::NUnit.Framework.DescriptionAttribute("Add a pet to a newly created owner and verify persistence")]
+        [global::NUnit.Framework.CategoryAttribute("OwnersApi")]
+        [global::NUnit.Framework.CategoryAttribute("CreatePet")]
+        [global::NUnit.Framework.CategoryAttribute("CreateOwner")]
+        [global::NUnit.Framework.CategoryAttribute("E2E")]
+        public async global::System.Threading.Tasks.Task AddAPetToANewlyCreatedOwnerAndVerifyPersistence()
+        {
+            string[] tagsOfScenario = new string[] {
+                    "OwnersApi",
+                    "CreatePet",
+                    "CreateOwner",
+                    "E2E"};
+            global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
+            string pickleIndex = "2";
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Add a pet to a newly created owner and verify persistence", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            string[] tagsOfRule = ((string[])(null));
+            global::Reqnroll.RuleInfo ruleInfo = null;
+#line 30
+this.ScenarioInitialize(scenarioInfo, ruleInfo);
+#line hidden
+            if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
+            {
+                await testRunner.SkipScenarioAsync();
+            }
+            else
+            {
+                await this.ScenarioStartAsync();
+#line 31
+ await testRunner.GivenAsync("I create a new owner successfully", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+#line hidden
+#line 32
+ await testRunner.AndAsync("I make a get request to pet types endpoint", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 33
+ await testRunner.AndAsync("I select an existing pet type from the response", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 34
+ await testRunner.WhenAsync("I make a post request to create a pet for the newly created owner with valid data" +
+                        "", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 35
+ await testRunner.ThenAsync("the response status code should be 201", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 36
+ await testRunner.AndAsync("the response content type should be \"application/json\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 37
+ await testRunner.AndAsync("the created pet response should contain valid pet data", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 38
+ await testRunner.AndAsync("I make a get request to retrieve the created pet by its ID and created owner ID", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 39
+ await testRunner.AndAsync("the response status code should be 200", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 40
  await testRunner.AndAsync("the retrieved pet matches the created pet data", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
             }

@@ -4,6 +4,7 @@ using RestSharp;
 using SeleniumFramework.ApiTests.Apis;
 using SeleniumFramework.ApiTests.Models;
 using SeleniumFramework.ApiTests.Utils;
+using SeleniumTestFramework.UiTests.Models.Builders;
 
 namespace SeleniumFramework.ApiTests.Hooks;
 
@@ -38,6 +39,14 @@ public class DependencyContainer
             var client = sp.GetRequiredService<RestClient>();
             return new PetTypesApi(client);
         });
+
+        services.AddScoped(sp =>
+        {
+            var client = sp.GetRequiredService<RestClient>();
+            return new PetsApi(client);
+        });
+
+        services.AddScoped<OwnerBuilder>();
 
         return services;
     }

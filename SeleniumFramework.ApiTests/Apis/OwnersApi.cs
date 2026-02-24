@@ -33,4 +33,17 @@ public class OwnersApi
         var request = new RestRequest($"{_uri}/{ownerId}/pets/{petId}", Method.Get);
         return _client.Execute<PetDto>(request);
     }
+
+    public RestResponse<OwnerDto> CreateOwner(OwnerDto newOwner)
+    {
+        var request = new RestRequest(_uri, Method.Post);
+        request.AddJsonBody(newOwner);
+        return _client.Execute<OwnerDto>(request);
+    }
+
+    public RestResponse<OwnerDto> DeleteOwner(int ownerId)
+    {
+        var request = new RestRequest($"{_uri}/{ownerId}", Method.Delete);
+        return _client.Execute<OwnerDto>(request);
+    }
 }

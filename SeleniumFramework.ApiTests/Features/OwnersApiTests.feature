@@ -24,3 +24,17 @@ Scenario: Create a pet for an existing owner and verify persistence
 	And I make a get request to retrieve the created pet by its ID and owner ID
 	And the response status code should be 200
 	And the retrieved pet matches the created pet data
+
+
+	@OwnersApi @CreatePet @CreateOwner @E2E
+Scenario: Add a pet to a newly created owner and verify persistence
+	Given I create a new owner successfully
+	And I make a get request to pet types endpoint
+	And I select an existing pet type from the response
+	When I make a post request to create a pet for the newly created owner with valid data
+	Then the response status code should be 201
+	And the response content type should be "application/json"
+	And the created pet response should contain valid pet data
+	And I make a get request to retrieve the created pet by its ID and created owner ID
+	And the response status code should be 200
+	And the retrieved pet matches the created pet data

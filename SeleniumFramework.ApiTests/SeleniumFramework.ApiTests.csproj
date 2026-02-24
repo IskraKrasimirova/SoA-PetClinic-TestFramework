@@ -15,6 +15,7 @@
     </ItemGroup>
 
     <ItemGroup>
+        <PackageReference Include="Bogus" Version="35.6.5" />
         <PackageReference Include="FluentAssertions" Version="6.12.2" />
         <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.8.0" />
 		<PackageReference Include="Microsoft.Extensions.Configuration" Version="10.0.2" />
@@ -31,7 +32,6 @@
 
     <ItemGroup>
       <Folder Include="Features\" />
-      <Folder Include="Models\Builders\" />
     </ItemGroup>
 
     <ItemGroup>

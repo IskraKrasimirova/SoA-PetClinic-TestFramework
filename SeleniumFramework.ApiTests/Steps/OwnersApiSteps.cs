@@ -5,6 +5,7 @@ using SeleniumFramework.ApiTests.Apis;
 using SeleniumFramework.ApiTests.Models.Dtos;
 using SeleniumFramework.ApiTests.Utils;
 using SeleniumFramework.Models;
+using SeleniumTestFramework.UiTests.Models.Builders;
 
 namespace SeleniumFramework.ApiTests.Steps
 {
@@ -13,11 +14,13 @@ namespace SeleniumFramework.ApiTests.Steps
     {
         private readonly ScenarioContext _scenarioContext;
         private readonly OwnersApi _ownersApi;
+        private readonly OwnerBuilder _ownerBuilder;
 
-        public OwnersApiSteps(ScenarioContext scenarioContext, OwnersApi ownersApi)
+        public OwnersApiSteps(ScenarioContext scenarioContext, OwnersApi ownersApi, OwnerBuilder ownerBuilder)
         {
             this._scenarioContext = scenarioContext;
             this._ownersApi = ownersApi;
+            this._ownerBuilder = ownerBuilder;
         }
 
         [Given("I make a get request to owners endpoint")]
@@ -43,6 +46,19 @@ namespace SeleniumFramework.ApiTests.Steps
             _scenarioContext.Add(ContextConstants.SelectedOwner, selectedOwner);
         }
 
+        [Given("I create a new owner successfully")]
+        public void GivenICreateANewOwnerSuccessfully()
+        {
+            var newOwner = _ownerBuilder.CreateWithDefaultValues().Build();
+            var response = _ownersApi.CreateOwner(newOwner);
+
+            response.Should().NotBeNull();
+            response.StatusCode.Should().Be(System.Net.HttpStatusCode.Created);
+
+            _scenarioContext[ContextConstants.CreatedOwner] = response.Data;
+        }
+
+
         [When("I make a post request to create a pet for the selected owner with valid data")]
         public void WhenIMakeAPostRequestToCreateAPetForTheSelectedOwnerWithValidData()
         {
@@ -60,6 +76,29 @@ namespace SeleniumFramework.ApiTests.Steps
             _scenarioContext[ContextConstants.NewPet] = newPet;
 
             var response = _ownersApi.CreatePetForOwner(selectedOwner.Id, newPet);
+
+            _scenarioContext[ContextConstants.StatusCode] = (int)response.StatusCode;
+            _scenarioContext[ContextConstants.ContentType] = response.ContentType;
+            _scenarioContext[ContextConstants.CreatedPet] = response.Data;
+        }
+
+        [When("I make a post request to create a pet for the newly created owner with valid data")]
+        public void WhenIMakeAPostRequestToCreateAPetForTheNewlyCreatedOwnerWithValidData()
+        {
+            var createdOwner = _scenarioContext.Get<OwnerDto>(ContextConstants.CreatedOwner);
+            var selectedPetType = _scenarioContext.Get<PetTypeDto>(ContextConstants.SelectedPetType);
+
+            var newPet = new PetDto
+            {
+                Name = "Buddy",
+                BirthDate = DateTime.Now.AddYears(-2).ToString("yyyy-MM-dd"),
+                Type = selectedPetType,
+                OwnerId = createdOwner.Id
+            };
+
+            _scenarioContext[ContextConstants.NewPet] = newPet;
+
+            var response = _ownersApi.CreatePetForOwner(createdOwner.Id, newPet);
 
             _scenarioContext[ContextConstants.StatusCode] = (int)response.StatusCode;
             _scenarioContext[ContextConstants.ContentType] = response.ContentType;
@@ -86,6 +125,7 @@ namespace SeleniumFramework.ApiTests.Steps
                     owner.Id.Should().BeGreaterThan(0, "Owner ID should be a positive number");
                     owner.FirstName.Should().NotBeNullOrWhiteSpace("FirstName is required");
                     owner.LastName.Should().NotBeNullOrWhiteSpace("LastName is required");
+                    owner.Address.Should().NotBeNullOrWhiteSpace("Address is required");
                     owner.City.Should().NotBeNullOrWhiteSpace("City is required");
                     owner.Telephone.Should().NotBeNullOrWhiteSpace("Telephone is required");
 
@@ -140,6 +180,19 @@ namespace SeleniumFramework.ApiTests.Steps
             var createdPet = _scenarioContext.Get<PetDto>(ContextConstants.CreatedPet);
 
             var response = _ownersApi.GetPetById(selectedOwner.Id, createdPet.Id);
+
+            _scenarioContext[ContextConstants.StatusCode] = (int)response.StatusCode;
+            _scenarioContext[ContextConstants.ContentType] = response.ContentType;
+            _scenarioContext[ContextConstants.OwnersResponse] = response.Data;
+        }
+
+        [Then("I make a get request to retrieve the created pet by its ID and created owner ID")]
+        public void ThenIMakeAGetRequestToRetrieveTheCreatedPetByItsIDAndCreatedOwnerID()
+        {
+            var createdOwner = _scenarioContext.Get<OwnerDto>(ContextConstants.CreatedOwner);
+            var createdPet = _scenarioContext.Get<PetDto>(ContextConstants.CreatedPet);
+
+            var response = _ownersApi.GetPetById(createdOwner.Id, createdPet.Id);
 
             _scenarioContext[ContextConstants.StatusCode] = (int)response.StatusCode;
             _scenarioContext[ContextConstants.ContentType] = response.ContentType;
