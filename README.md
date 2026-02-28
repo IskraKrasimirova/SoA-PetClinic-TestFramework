@@ -136,6 +136,7 @@ As a system user, I want to add visits for pets so that the system can log visit
 - C# / .NET 8
 - RestSharp
 - NUnit
+- FluentAssertions
 - Newtonsoft.Json
 
 
@@ -143,7 +144,7 @@ As a system user, I want to add visits for pets so that the system can log visit
 ### Architecture & Design
 - **Dependency Injection** (built-in .NET DI / IoC)
 - **Configuration Management** (environment-based `appsettings`)
-- **Assertions** (NUnit assertion library)
+- **Assertions** (NUnit assertion library for UI tests, FluentAssertions for API tests)
 - **Design Patterns** (Page Object, Factory, Builder)
 - **BDD-first approach** (Reqnroll + Gherkin)
 - **Layered Test Architecture** (Features → Steps → Services/Pages → Infrastructure)
