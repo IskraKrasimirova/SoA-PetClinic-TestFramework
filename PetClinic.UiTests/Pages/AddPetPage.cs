@@ -16,6 +16,9 @@ namespace PetClinic.UiTests.Pages
         private IWebElement AddPetButton => _driver.FindElement(By.XPath("//button[text()='Add Pet']"));
         private IWebElement LogoImage => _driver.FindElement(By.XPath("//img[contains(@src,'spring')]"));
 
+        private ICollection<IWebElement> FieldValidationMessages(string fieldId) 
+            => _driver.FindElements(By.XPath($"//*[@id='{fieldId}']/following::span[@class='help-inline']"));
+
         public AddPetPage(IWebDriver driver) : base(driver)
         {
         }
@@ -36,76 +39,27 @@ namespace PetClinic.UiTests.Pages
 
         public string? GetFieldValidationMessage(string field)
         {
-            IWebElement element;
-
-            switch (field)
-            {
-                case "Name":
-                    element = NameInput;
-                    break;
-                case "BirthDate":
-                    element = BirthDateInput;
-                    break;
-                case "Type":
-                    element = TypeSelect;
-                    break;
-                default:
-                    throw new ArgumentException($"Unknown field: {field}");
-            }
+            var fieldId = GetFieldId(field);
 
             string? messageText = null;
 
             Retry.Until(() =>
             {
-                var messages = element.FindElements(By.XPath("./parent::div/span[@class='help-inline']"));
+                var messages = FieldValidationMessages(fieldId);
 
                 if (messages.Count == 0)
-                    throw new RetryException("Message not loaded yet.");
+                    throw new RetryException("Validation message not yet present.");
 
                 var actualMessage = messages.First();
 
                 if (!actualMessage.Displayed)
-                    throw new RetryException("Message not visible yet.");
+                    throw new RetryException("Validation message is not visible yet.");
 
                 messageText = actualMessage.Text.Trim();
-            },  waitInMilliseconds: 700);
+            });
 
             return messageText;
         }
-
-        //public string? GetFieldValidationMessage(string field)
-        //{
-        //    string fieldId = field switch
-        //    {
-        //        "Name" => "name",
-        //        "BirthDate" => "birthDate",
-        //        "Type" => "type",
-        //        _ => throw new ArgumentException($"Unknown field: {field}")
-        //    };
-
-        //    // Най-стабилният възможен локатор:
-        //    // намира първия help-inline след елемента, без значение структурата на DOM
-        //    string xpath = $"//*[@id='{fieldId}']/following::span[contains(@class,'help-inline')][1]";
-
-        //    string? messageText = null;
-
-        //    Retry.Until(() =>
-        //    {
-        //        var messages = _driver.FindElements(By.XPath(xpath));
-
-        //        if (messages.Count == 0)
-        //            throw new RetryException("Validation message not yet present.");
-
-        //        var actualMessage = messages.First();
-
-        //        if (!actualMessage.Displayed)
-        //            throw new RetryException("Validation message is in DOM but not visible yet.");
-
-        //        messageText = actualMessage.Text.Trim();
-        //    }, waitInMilliseconds: 1000); 
-
-        //    return messageText;
-        //}
 
         public void VerifyOwnerName(string expectedFullName)
         {
@@ -127,6 +81,28 @@ namespace PetClinic.UiTests.Pages
                 Assert.That(AddPetButton.Displayed, "AddPet button is not visible.");
                 Assert.That(LogoImage.Displayed, "Spring logo is not visible.");
             });
+        }
+
+        private static string GetFieldId(string field)
+        {
+            string fieldId;
+
+            switch (field)
+            {
+                case "Name":
+                    fieldId = "name";
+                    break;
+                case "BirthDate":
+                    fieldId = "birthDate";
+                    break;
+                case "Type":
+                    fieldId = "type";
+                    break;
+                default:
+                    throw new ArgumentException($"Unknown field: {field}");
+            }
+
+            return fieldId;
         }
     }
 }

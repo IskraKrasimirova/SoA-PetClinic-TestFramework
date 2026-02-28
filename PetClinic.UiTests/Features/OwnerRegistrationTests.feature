@@ -42,7 +42,8 @@ Examples:
 
 # Telephone mandatory field validation message is inconsistent.
 # Sometimes shows "must not be empty", sometimes "numeric value out of bounds (<10 digits>.<0 digits> expected)".
-# Test accepts both as valid outcomes.
+# Tests accepts both as valid outcomes.
+
 @OwnerRegistration @Validation
 Scenario: Verify a user is not able to register an owner with missing mandatory fields
 	When I try to create a new owner without filling all mandatory fields

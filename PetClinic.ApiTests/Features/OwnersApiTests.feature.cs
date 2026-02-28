@@ -217,8 +217,8 @@ this.ScenarioInitialize(scenarioInfo, ruleInfo);
         [global::NUnit.Framework.TestAttribute()]
         [global::NUnit.Framework.DescriptionAttribute("Add a pet to a newly created owner and verify persistence")]
         [global::NUnit.Framework.CategoryAttribute("OwnersApi")]
-        [global::NUnit.Framework.CategoryAttribute("CreatePet")]
         [global::NUnit.Framework.CategoryAttribute("CreateOwner")]
+        [global::NUnit.Framework.CategoryAttribute("CreatePet")]
         [global::NUnit.Framework.CategoryAttribute("E2E")]
         [global::NUnit.Framework.CategoryAttribute("CleanupPet")]
         [global::NUnit.Framework.CategoryAttribute("CleanupOwner")]
@@ -226,8 +226,8 @@ this.ScenarioInitialize(scenarioInfo, ruleInfo);
         {
             string[] tagsOfScenario = new string[] {
                     "OwnersApi",
-                    "CreatePet",
                     "CreateOwner",
+                    "CreatePet",
                     "E2E",
                     "CleanupPet",
                     "CleanupOwner"};

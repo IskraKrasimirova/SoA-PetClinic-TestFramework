@@ -16,6 +16,9 @@ namespace PetClinic.UiTests.Pages
         private IWebElement AddOwnerButton => _driver.FindElement(By.XPath("//button[text()='Add Owner']"));
         private IWebElement LogoImage => _driver.FindElement(By.XPath("//img[contains(@src,'spring')]"));
 
+        private ICollection<IWebElement> FieldValidationMessages(string fieldId)
+            => _driver.FindElements(By.XPath($"//*[@id='{fieldId}']/following::span[@class='help-inline']"));
+
         public AddOwnerPage(IWebDriver driver) : base(driver)
         {
         }
@@ -33,34 +36,13 @@ namespace PetClinic.UiTests.Pages
 
         public string? GetFieldValidationMessage(string field)
         {
-            IWebElement element;
-
-            switch (field)
-            {
-                case "FirstName":
-                    element = FirstNameInput;
-                    break;
-                case "LastName":
-                    element = LastNameInput;
-                    break;
-                case "Address":
-                    element = AddressInput;
-                    break;
-                case "City":
-                    element = CityInput;
-                    break;
-                case "Telephone":
-                    element = TelerhoneInput;
-                    break;
-                default:
-                    throw new ArgumentException($"Unknown field: {field}");
-            }
+            var fieldId = GetFieldId(field);
 
             string? messageText = null;
 
             Retry.Until(() =>
             {
-                var messages = element.FindElements(By.XPath("./parent::div/span[@class='help-inline']"));
+                var messages = FieldValidationMessages(fieldId);
 
                 if (messages.Count == 0)
                     throw new RetryException("Message not loaded yet.");
@@ -92,6 +74,34 @@ namespace PetClinic.UiTests.Pages
                 Assert.That(AddOwnerButton.Displayed, "AddOwner button is not visible.");
                 Assert.That(LogoImage.Displayed, "Spring logo is not visible.");
             });
+        }
+
+        private static string GetFieldId(string field)
+        {
+            string fieldId;
+
+            switch (field)
+            {
+                case "FirstName":
+                    fieldId = "firstName";
+                    break;
+                case "LastName":
+                    fieldId = "lastName";
+                    break;
+                case "Address":
+                    fieldId = "address";
+                    break;
+                case "City":
+                    fieldId = "city";
+                    break;
+                case "Telephone":
+                    fieldId = "telephone";
+                    break;
+                default:
+                    throw new ArgumentException($"Unknown field: {field}");
+            }
+
+            return fieldId;
         }
     }
 }

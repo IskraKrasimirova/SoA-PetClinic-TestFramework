@@ -86,7 +86,14 @@ namespace PetClinic.UiTests.Steps
         {
             var actualMessage = _addOwnerPage.GetFieldValidationMessage(field);
 
-            Assert.That(actualMessage, Is.EqualTo(expectedMessage), $"Validation message for field '{field}' is incorrect.");
+            if (field == "Telephone")
+            {
+                Assert.That(actualMessage, Is.EqualTo("numeric value out of bounds (<10 digits>.<0 digits> expected)").Or.EqualTo("must not be empty"), $"Validation message for field '{field}' is incorrect.");
+            }
+            else
+            {
+                Assert.That(actualMessage, Is.EqualTo(expectedMessage), $"Validation message for field '{field}' is incorrect.");
+            }   
         }
 
         [Then("appropriate error messages are displayed for all mandatory fields")]
