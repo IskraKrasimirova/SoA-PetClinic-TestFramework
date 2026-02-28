@@ -9,10 +9,17 @@ namespace PetClinic.UiTests.Pages
         private IWebElement OwnersHeader => _driver.FindElement(By.XPath("//div[contains(@class, 'container-fluid')]//h2"));
         private IWebElement OwnersTable => _driver.FindElement(By.XPath("//table[@id='ownersTable']"));
         private IWebElement LogoImage => _driver.FindElement(By.XPath("//img[contains(@src,'spring')]"));
-        private IReadOnlyCollection<IWebElement> OwnerRows => _driver.FindElements(By.XPath("//table[@id='ownersTable']/tbody/tr"));
+
+        private IReadOnlyCollection<IWebElement> OwnerRows => 
+            _driver.FindElements(By.XPath("//table[@id='ownersTable']/tbody/tr"));
+
+        private IReadOnlyCollection<IWebElement> OwnersTableHeaders => OwnersTable.FindElements(By.XPath(".//thead/tr/th"));
+
         private IWebElement? FindOwnerRowByFullName(string fullName) =>
             _driver.FindElements(By.XPath($"//table[@id='ownersTable']//a[text()='{fullName}']/ancestor::tr"))
            .FirstOrDefault();
+
+        private IReadOnlyCollection<IWebElement> GetOwnerCells(IWebElement row) => row.FindElements(By.XPath("./td"));
 
         public OwnersResultsPage(IWebDriver driver) : base(driver)
         {
@@ -31,14 +38,14 @@ namespace PetClinic.UiTests.Pages
             var fullName = $"{expectedOwner.FirstName} {expectedOwner.LastName}";
             var ownerRow = FindOwnerRowByFullName(fullName);
 
-            var headers = OwnersTable.FindElements(By.XPath(".//thead/tr/th"))
+            var headers = OwnersTableHeaders
                 .Select(th => th.Text.Trim())
                 .ToList();
 
             var expectedHeaders = new List<string> { "Name", "Address", "City", "Telephone", "Pets" };
             Assert.That(headers, Is.EqualTo(expectedHeaders), "Table headers do not match expected values.");
 
-            var cells = ownerRow.FindElements(By.XPath("./td"))
+            var cells = GetOwnerCells(ownerRow)
                 .Select(td => td.Text.Trim())
                 .ToList();
 

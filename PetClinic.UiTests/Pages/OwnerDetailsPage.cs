@@ -18,11 +18,21 @@ namespace PetClinic.UiTests.Pages
         private IWebElement CityValueCell => _driver.FindElement(By.XPath("//th[text()='City']/following-sibling::td"));
         private IWebElement TelephoneValueCell => _driver.FindElement(By.XPath("//th[text()='Telephone']/following-sibling::td"));
         private IReadOnlyCollection<IWebElement> AddVisitLinks => _driver.FindElements(By.XPath("//a[contains(text(),'Add Visit')]"));
+
         private IWebElement? FindPetSectionByName(string petName) => _driver.FindElements(By.XPath("//dl"))
            .FirstOrDefault(dl => dl.Text.Contains(petName));
-        private IWebElement? FindVisitRowByDescription(string description) => 
+        private IWebElement? FindVisitRowByDescription(string description) =>
             _driver.FindElements(By.XPath("//table[.//th[text()='Visit Date']]//tbody/tr"))
            .FirstOrDefault(r => r.Text.Contains(description));
+
+        private IWebElement GetPetNameCell(IWebElement petSection) =>
+            petSection.FindElement(By.XPath(".//dt[text()='Name']/following-sibling::dd[1]"));
+
+        private IWebElement GetPetBirthDateCell(IWebElement petSection) =>
+            petSection.FindElement(By.XPath(".//dt[text()='Birth Date']/following-sibling::dd[1]"));
+
+        private IWebElement GetPetTypeCell(IWebElement petSection) =>
+            petSection.FindElement(By.XPath(".//dt[text()='Type']/following-sibling::dd[1]"));
 
         public OwnerDetailsPage(IWebDriver driver) : base(driver)
         {
@@ -65,9 +75,9 @@ namespace PetClinic.UiTests.Pages
 
             Assert.That(petSection, Is.Not.Null, $"Pet '{pet.Name}' was not found.");
 
-            var name = petSection.FindElement(By.XPath(".//dt[text()='Name']/following-sibling::dd[1]")).Text.Trim();
-            var birthDate = petSection.FindElement(By.XPath(".//dt[text()='Birth Date']/following-sibling::dd[1]")).Text.Trim();
-            var type = petSection.FindElement(By.XPath(".//dt[text()='Type']/following-sibling::dd[1]")).Text.Trim();
+            var name = GetPetNameCell(petSection).Text.Trim();
+            var birthDate = GetPetBirthDateCell(petSection).Text.Trim();
+            var type = GetPetTypeCell(petSection).Text.Trim();
 
             Assert.Multiple(() =>
             {
