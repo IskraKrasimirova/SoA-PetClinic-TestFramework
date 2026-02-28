@@ -2,6 +2,7 @@
 Automated UI and API tests for Spring Pet Clinic, developed as part of the School of Automation Testing Endava – Final Exam.
 The project validates core business functionalities through Selenium UI tests and REST API tests.
 
+---
 
 ## 🚀 Environment Setup
 ### Start Web UI Application
@@ -16,8 +17,10 @@ Application URL: http://localhost:8080
 
 Swagger UI: http://localhost:9966/petclinic/swagger-ui.html
 
+---
 
 ## 📘 User Stories & Acceptance Criteria
+
 
 
 ### 1. Owner Registration
@@ -33,6 +36,7 @@ As a system user, I want to register an owner so that the system can maintain a 
   - Telephone → digits only, maximum 10 digits  
 - On successful registration: The owner is created and displayed correctly in a table.  
 - On failure: The system provides clear warning and error details.
+
 
 
 ### 2. Add Pet to Owner
@@ -54,6 +58,7 @@ As a system user, I want to add pets to owners so the system can associate each 
 - Multiple pets can be added for a single owner.
 
 
+
 ### 3. Book a Visit for a Pet
 
 **User Story:**  
@@ -72,6 +77,7 @@ As a system user, I want to add visits for pets so that the system can log visit
 	- The system displays a warning describing the problem.
 - A pet may have multiple visits recorded.
 
+---
 
 ## 🔗 REST API Automation
 ### Task A — GET /api/owners
@@ -88,6 +94,7 @@ As a system user, I want to add visits for pets so that the system can log visit
 	- city, 
 	- telephone.
 
+	
 
 ### Task B — POST /api/owners/{ownerId}/pets
 
@@ -105,8 +112,18 @@ As a system user, I want to add visits for pets so that the system can log visit
 	- echoes name 
 	- references a valid type.id. 
 
+---
 
 ## 🛠️ Technologies & Frameworks
+
+
+### BDD & Reqnroll
+- Behavior-Driven Development approach for readable, business-oriented scenarios
+- Reqnroll for managing requirements and linking them to test cases
+- Gherkin syntax (`Given / When / Then`) for clear, structured test scenarios
+- Integration with NUnit for test execution and reporting
+
+
 ### UI Automation
 - C# / .NET 8
 - Selenium WebDriver
