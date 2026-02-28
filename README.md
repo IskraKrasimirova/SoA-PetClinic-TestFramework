@@ -17,13 +17,15 @@ Swagger UI: http://localhost:9966/petclinic/swagger-ui.html
 ## 📘 User Stories & Acceptance Criteria
 
 ### 1. Owner Registration
-**User Story:**
+
+**User Story:**  
 As a system user, I want to register an owner so that the system can maintain a record of clinic clients.
-**Acceptance Criteria:**
-All fields are mandatory.
-Validation rules:
-- First Name, Last Name, City: English alphabet only, minimum 2 characters.
-- Address → letters, digits, special characters allowed
-- Telephone → digits only, maximum 10 digits
-•	On successful registration: The owner is created and displayed correctly in a table.
-•	On failure: The system provides clear warning and error details.
+
+**Acceptance Criteria:**  
+- All fields are mandatory.  
+- Validation rules:  
+  - First Name, Last Name, City: English alphabet only, minimum 2 characters.  
+  - Address → letters, digits, special characters allowed  
+  - Telephone → digits only, maximum 10 digits  
+- On successful registration: The owner is created and displayed correctly in a table.  
+- On failure: The system provides clear warning and error details.
