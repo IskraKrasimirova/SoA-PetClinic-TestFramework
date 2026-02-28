@@ -1,6 +1,7 @@
 ﻿# 🐾 Pet Clinic — UI & API Automated Tests
-Automated UI and API tests for Spring Pet Clinic, developed as part of the School of Automation Testing – Final Exam.
+Automated UI and API tests for Spring Pet Clinic, developed as part of the School of Automation Testing Endava – Final Exam.
 The project validates core business functionalities through Selenium UI tests and REST API tests.
+
 
 ## 🚀 Environment Setup
 ### Start Web UI Application
@@ -15,7 +16,9 @@ Application URL: http://localhost:8080
 
 Swagger UI: http://localhost:9966/petclinic/swagger-ui.html
 
+
 ## 📘 User Stories & Acceptance Criteria
+
 
 ### 1. Owner Registration
 
@@ -30,6 +33,7 @@ As a system user, I want to register an owner so that the system can maintain a 
   - Telephone → digits only, maximum 10 digits  
 - On successful registration: The owner is created and displayed correctly in a table.  
 - On failure: The system provides clear warning and error details.
+
 
 ### 2. Add Pet to Owner
 
@@ -48,6 +52,7 @@ As a system user, I want to add pets to owners so the system can associate each 
 - On failure:
 	- The system displays a warning describing the issue.
 - Multiple pets can be added for a single owner.
+
 
 ### 3. Book a Visit for a Pet
 
@@ -83,6 +88,7 @@ As a system user, I want to add visits for pets so that the system can log visit
 	- city, 
 	- telephone.
 
+
 ### Task B — POST /api/owners/{ownerId}/pets
 
 **Goal:** Create a pet for an existing owner and verify persistence.
@@ -99,30 +105,24 @@ As a system user, I want to add visits for pets so that the system can log visit
 	- echoes name 
 	- references a valid type.id. 
 
+
 ## 🛠️ Technologies & Frameworks
 ### UI Automation
-C# / .NET 8
+- C# / .NET 8
+- Selenium WebDriver
+- NUnit
+- ChromeDriver
+- Page Object Model (POM)
 
-Selenium WebDriver
-
-NUnit
-
-ChromeDriver
-
-Page Object Model (POM)
 
 ### API Automation
-C# / .NET 8
+- C# / .NET 8
+- RestSharp
+- NUnit
+- Newtonsoft.Json
 
-RestSharp
-
-NUnit
-
-Newtonsoft.Json
 
 ### Infrastructure
-Docker
-
-Swagger UI
-
-Spring Pet Clinic (UI & REST)
+- Docker
+- Swagger UI
+- Spring Pet Clinic (UI & REST)
