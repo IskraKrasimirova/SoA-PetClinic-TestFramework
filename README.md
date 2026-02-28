@@ -139,6 +139,18 @@ As a system user, I want to add visits for pets so that the system can log visit
 - Newtonsoft.Json
 
 
+
+### Architecture & Design
+- **Dependency Injection** (built-in .NET DI / IoC)
+- **Configuration Management** (environment-based `appsettings`)
+- **Assertions** (NUnit assertion library)
+- **Design Patterns** (Page Object, Factory, Builder)
+- **BDD-first approach** (Reqnroll + Gherkin)
+- **Layered Test Architecture** (Features → Steps → Services/Pages → Infrastructure)
+- **Extensible Design** (easy to add browsers, environments, services)
+
+
+
 ### Infrastructure
 - Docker
 - Swagger UI
