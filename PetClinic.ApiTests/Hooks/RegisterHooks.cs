@@ -1,9 +1,10 @@
-﻿using PetClinic.ApiTests.Apis;
+﻿using FluentAssertions;
+using PetClinic.ApiTests.Apis;
 using PetClinic.ApiTests.Models.Dtos;
 using PetClinic.ApiTests.Utils;
 using Reqnroll;
 
-namespace SeleniumFramework.ApiTests.Hooks
+namespace PetClinic.ApiTests.Hooks
 {
     [Binding]
     public class RegisterHooks
@@ -17,21 +18,24 @@ namespace SeleniumFramework.ApiTests.Hooks
             this._scenarioContext = scenarioContext;
             this._ownersApi = ownersApi;
             this._petsApi = petsApi;
-
         }
 
-        [AfterScenario("CreatePet", Order = 1)]
+        [AfterScenario("CleanupPet", Order = 1)]
         public void CleanupPet()
         {
             var createdPet = _scenarioContext.Get<PetDto>(ContextConstants.CreatedPet);
-            _petsApi.DeletePet(createdPet.Id);
+            var response = _petsApi.DeletePet(createdPet.Id);
+
+            response.StatusCode.Should().Be(System.Net.HttpStatusCode.NoContent);
         }
 
-        [AfterScenario("CreateOwner", Order = 2)]
+        [AfterScenario("CleanupOwner", Order = 2)]
         public void CleanupOwner()
         {
             var createdOwner = _scenarioContext.Get<OwnerDto>(ContextConstants.CreatedOwner);
-            _ownersApi.DeleteOwner(createdOwner.Id);
+            var response = _ownersApi.DeleteOwner(createdOwner.Id);
+
+            response.StatusCode.Should().Be(System.Net.HttpStatusCode.NoContent);
         }
     }
 }

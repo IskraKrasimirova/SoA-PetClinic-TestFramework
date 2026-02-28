@@ -11,7 +11,7 @@ Scenario: Get all owners returns a list of valid owners
 	And each owner in the list should have valid data
 
 
-@OwnersApi @CreatePet @E2E
+@OwnersApi @CreatePet @E2E @CleanupPet
 Scenario: Create a pet for an existing owner and verify persistence
 	Given I make a get request to owners endpoint
 	And I select an existing owner from the response
@@ -26,7 +26,7 @@ Scenario: Create a pet for an existing owner and verify persistence
 	And the retrieved pet matches the created pet data
 
 
-	@OwnersApi @CreatePet @CreateOwner @E2E
+@OwnersApi @CreatePet @CreateOwner @E2E @CleanupPet @CleanupOwner
 Scenario: Add a pet to a newly created owner and verify persistence
 	Given I create a new owner successfully
 	And I make a get request to pet types endpoint

@@ -154,12 +154,14 @@ this.ScenarioInitialize(scenarioInfo, ruleInfo);
         [global::NUnit.Framework.CategoryAttribute("OwnersApi")]
         [global::NUnit.Framework.CategoryAttribute("CreatePet")]
         [global::NUnit.Framework.CategoryAttribute("E2E")]
+        [global::NUnit.Framework.CategoryAttribute("CleanupPet")]
         public async global::System.Threading.Tasks.Task CreateAPetForAnExistingOwnerAndVerifyPersistence()
         {
             string[] tagsOfScenario = new string[] {
                     "OwnersApi",
                     "CreatePet",
-                    "E2E"};
+                    "E2E",
+                    "CleanupPet"};
             global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
             string pickleIndex = "1";
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Create a pet for an existing owner and verify persistence", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
@@ -218,13 +220,17 @@ this.ScenarioInitialize(scenarioInfo, ruleInfo);
         [global::NUnit.Framework.CategoryAttribute("CreatePet")]
         [global::NUnit.Framework.CategoryAttribute("CreateOwner")]
         [global::NUnit.Framework.CategoryAttribute("E2E")]
+        [global::NUnit.Framework.CategoryAttribute("CleanupPet")]
+        [global::NUnit.Framework.CategoryAttribute("CleanupOwner")]
         public async global::System.Threading.Tasks.Task AddAPetToANewlyCreatedOwnerAndVerifyPersistence()
         {
             string[] tagsOfScenario = new string[] {
                     "OwnersApi",
                     "CreatePet",
                     "CreateOwner",
-                    "E2E"};
+                    "E2E",
+                    "CleanupPet",
+                    "CleanupOwner"};
             global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
             string pickleIndex = "2";
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Add a pet to a newly created owner and verify persistence", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);

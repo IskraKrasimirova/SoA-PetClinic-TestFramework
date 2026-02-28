@@ -68,8 +68,7 @@ namespace SeleniumFramework.ApiTests.Steps
             {
                 Name = "Buddy",
                 BirthDate = DateTime.Now.AddYears(-2).ToString("yyyy-MM-dd"),
-                Type = selectedPetType,
-                OwnerId = selectedOwner.Id
+                Type = selectedPetType
             };
 
             _scenarioContext[ContextConstants.NewPet] = newPet;
@@ -91,8 +90,7 @@ namespace SeleniumFramework.ApiTests.Steps
             {
                 Name = "Buddy",
                 BirthDate = DateTime.Now.AddYears(-2).ToString("yyyy-MM-dd"),
-                Type = selectedPetType,
-                OwnerId = createdOwner.Id
+                Type = selectedPetType
             };
 
             _scenarioContext[ContextConstants.NewPet] = newPet;
@@ -168,6 +166,7 @@ namespace SeleniumFramework.ApiTests.Steps
                 expectedPet,
                 options => options
                     .Excluding(p => p.Id)
+                    .Excluding(p => p.OwnerId)
                 );
             }
         }

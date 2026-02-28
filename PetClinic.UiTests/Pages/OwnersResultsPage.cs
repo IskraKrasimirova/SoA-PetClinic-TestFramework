@@ -1,7 +1,6 @@
 ﻿using OpenQA.Selenium;
 using PetClinic.UiTests.Models;
 using PetClinic.UiTests.Utilities.Extensions;
-using Reqnroll;
 
 namespace PetClinic.UiTests.Pages
 {
@@ -14,7 +13,6 @@ namespace PetClinic.UiTests.Pages
         private IWebElement? FindOwnerRowByFullName(string fullName) =>
             _driver.FindElements(By.XPath($"//table[@id='ownersTable']//a[text()='{fullName}']/ancestor::tr"))
            .FirstOrDefault();
-
 
         public OwnersResultsPage(IWebDriver driver) : base(driver)
         {
@@ -58,7 +56,6 @@ namespace PetClinic.UiTests.Pages
         {
             return _driver.Url.Contains("owners?lastName=") && OwnerRows.Count > 0;
         }
-
 
         public void VerifyIsAtOwnersResultsPage()
         {
