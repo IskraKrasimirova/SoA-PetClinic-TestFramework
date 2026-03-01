@@ -54,61 +54,36 @@ Scenario: Verify a user is not able to register an owner with missing mandatory 
 
 
 @OwnersApi @Validation
-Scenario Outline: Verify a user is not able to register an owner with invalid Telephone field
-	Given I make a post request to owners endpoint with not valid Telephone "<value>"
+Scenario Outline: Verify a user is not able to register an owner with invalid details
+	Given I make a post request to owners endpoint with not valid details for "<field>" with "<value>"
 	Then the response status code should be <statusCode>
 	And the response should contain the following error message "<message>"
 Examples:
-	| value                 | message                                | statusCode | #Description       | #Actual |
-	|                       | size must be between 1 and 20          |        400 | Empty              | Pass    |
-	|                     1 | Phone number must be exactly 10 digits |        500 | 1 digit            | Pass    |
-	|                123456 | Phone number must be exactly 10 digits |        500 | 6 digits           | Pass    |
-	|  12345678901234567890 | Phone number must be exactly 10 digits |        500 | 20 digits          | Pass    |
-	| 123456789012345678901 | size must be between 1 and 20          |        400 | 21 digits          | Pass    |
-	| AbcdePhone            | must match                             |        400 | 10 letters         | Pass    |
-	| !@#$%^-&*?            | must match                             |        400 | special characters | Pass    |
-
-
-@OwnersApi @Validation
-Scenario Outline: Verify a user is not able to register an owner with invalid First Name field
-	Given I make a post request to owners endpoint with not valid FirstName "<value>"
-	Then the response status code should be <statusCode>
-	And the response should contain the following error message "<message>"
-Examples:
-	| value                           | message                       | statusCode | #Description       | #Actual |
-	|                                 | size must be between 1 and 30 |        400 | Empty              | Pass    |
-	| AAAAAAAAAAbbbbbbbbbbccccccccccd | size must be between 1 and 30 |        400 | 31 letter          | Pass    |
-	| Mary‑Jane                       | must match                    |        400 | Hyphenated name    | Pass    |
-	| Maria!$%                        | must match                    |        400 | special characters | Pass    |
-	| Iskra123                        | must match                    |        400 | letters and digits | Pass    |
-
-
-@OwnersApi @Validation
-Scenario Outline: Verify a user is not able to register an owner with invalid Last Name field
-	Given I make a post request to owners endpoint with not valid LastName "<value>"
-	Then the response status code should be <statusCode>
-	And the response should contain the following error message "<message>"
-Examples:
-	| value                           | message                       | statusCode | #Description       | #Actual |
-	|                                 | size must be between 1 and 30 |        400 | Empty              | Pass    |
-	| AAAAAAAAAAbbbbbbbbbbccccccccccD | size must be between 1 and 30 |        400 | 31 letter          | Pass    |
-	| Gray‑Stone                      | must match                    |        400 | Hyphenated name    | Pass    |
-	| Smith#@!                        | must match                    |        400 | special characters | Pass    |
-	| Davis123                        | must match                    |        400 | letters and digits | Pass    |
+	| field     | value                           | message                                | statusCode | #Description       |
+	| Telephone |                                 | size must be between 1 and 20          |        400 | Empty              |
+	| Telephone |                               1 | Phone number must be exactly 10 digits |        500 | 1 digit            |
+	| Telephone |                          123456 | Phone number must be exactly 10 digits |        500 | 6 digits           |
+	| Telephone |            12345678901234567890 | Phone number must be exactly 10 digits |        500 | 20 digits          |
+	| Telephone |           123456789012345678901 | size must be between 1 and 20          |        400 | 21 digits          |
+	| Telephone | AbcdePhone                      | must match                             |        400 | 10 letters         |
+	| Telephone | !@#$%^-&*?                      | must match                             |        400 | special characters |
+	| FirstName |                                 | size must be between 1 and 30          |        400 | Empty              |
+	| FirstName | AAAAAAAAAAbbbbbbbbbbccccccccccd | size must be between 1 and 30          |        400 | 31 letter          |
+	| FirstName | Mary‑Jane                       | must match                             |        400 | Hyphenated name    |
+	| FirstName | Maria!$%                        | must match                             |        400 | special characters |
+	| FirstName | Iskra123                        | must match                             |        400 | letters and digits |
+	| LastName  |                                 | size must be between 1 and 30          |        400 | Empty              |
+	| LastName  | AAAAAAAAAAbbbbbbbbbbccccccccccD | size must be between 1 and 30          |        400 | 31 letter          |
+	| LastName  | Gray‑Stone                      | must match                             |        400 | Hyphenated name    |
+	| LastName  | Smith#@!                        | must match                             |        400 | special characters |
+	| LastName  | Davis123                        | must match                             |        400 | letters and digits |
+	| City      |                                 | size must be between 1 and 80          |        400 | Empty              |
+	| City      | LONG_81                         | size must be between 1 and 80          |        400 | 81 letter          |
+	| Address   |                                 | size must be between 1 and 255         |        400 | Empty              |
+	| Address   | LONG_256                        | size must be between 1 and 255         |        400 | 256 letter         |
 
 
 
-@OwnersApi @Validation
-Scenario Outline: Verify a user is not able to register an owner with invalid City field
-	Given I make a post request to owners endpoint with not valid City "<value>"
-	Then the response status code should be <statusCode>
-	And the response should contain the following error message "<message>"
-Examples:
-	| value      | message                       | statusCode | #Description | #Actual |
-	|            | size must be between 1 and 80 |        400 | Empty        | Pass    |
-	| AAAAAAAAAA | size must be between 1 and 80 |        400 | 81 letter    | Pass    |
-	
-	
 #@OwnersApi @CityField @Positive
 #Scenario Outline: Verify a user is able to register an owner with valid City field
 #	Given I make a post request to owners endpoint with City "<value>"

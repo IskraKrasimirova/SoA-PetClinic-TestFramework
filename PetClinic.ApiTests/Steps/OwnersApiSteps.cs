@@ -75,54 +75,51 @@ namespace SeleniumFramework.ApiTests.Steps
             _scenarioContext[ContextConstants.RawResponse] = response.Content;
         }
 
-        [Given("I make a post request to owners endpoint with not valid Telephone {string}")]
-        public void GivenIMakeAPostRequestToOwnersEndpointWithNotValidTelephone(string value)
+        [Given("I make a post request to owners endpoint with not valid details for {string} with {string}")]
+        public void GivenIMakeAPostRequestToOwnersEndpointWithNotValidDetailsForWith(string field, string value)
         {
-            var newOwner = _ownerBuilder.CreateWithDefaultValues().WithTelephone(value).Build();
+            var builder = _ownerBuilder.CreateWithDefaultValues();
+            var expandedValue = ExpandTestValue(value);
 
-            var response = _ownersApi.CreateOwner(newOwner);
-
-            _scenarioContext[ContextConstants.StatusCode] = (int)response.StatusCode;
-            _scenarioContext[ContextConstants.RawResponse] = response.Content;
-        }
-
-        [Given("I make a post request to owners endpoint with not valid FirstName {string}")]
-        public void GivenIMakeAPostRequestToOwnersEndpointWithNotValidFirstName(string value)
-        {
-            var newOwner = _ownerBuilder.CreateWithDefaultValues().WithFirstName(value).Build();
-
-            var response = _ownersApi.CreateOwner(newOwner);
-
-            _scenarioContext[ContextConstants.StatusCode] = (int)response.StatusCode;
-            _scenarioContext[ContextConstants.RawResponse] = response.Content;
-        }
-
-        [Given("I make a post request to owners endpoint with not valid LastName {string}")]
-        public void GivenIMakeAPostRequestToOwnersEndpointWithNotValidLastName(string value)
-        {
-            var newOwner = _ownerBuilder.CreateWithDefaultValues().WithLastName(value).Build();
-
-            var response = _ownersApi.CreateOwner(newOwner);
-
-            _scenarioContext[ContextConstants.StatusCode] = (int)response.StatusCode;
-            _scenarioContext[ContextConstants.RawResponse] = response.Content;
-        }
-
-        [Given("I make a post request to owners endpoint with not valid City {string}")]
-        public void GivenIMakeAPostRequestToOwnersEndpointWithNotValidCity(string value)
-        {
-            var newOwner = _ownerBuilder.CreateWithDefaultValues().WithCity(value).Build();
-
-            if (!string.IsNullOrEmpty(value))
+            switch (field)
             {
-                var cityLongName = new string('A', 81);
-                newOwner.City = cityLongName;
+                case "FirstName":
+                    builder.WithFirstName(value);
+                    break;
+                case "LastName":
+                    builder.WithLastName(value);
+                    break;
+                case "Address":
+                    builder.WithAddress(expandedValue);
+                    break;
+                case "City":
+                    builder.WithCity(expandedValue);
+                    break;
+                case "Telephone":
+                    builder.WithTelephone(value);
+                    break;
+                default:
+                    throw new ArgumentException($"Unknown field: {field}");
             }
 
+            var newOwner = builder.Build();
             var response = _ownersApi.CreateOwner(newOwner);
 
             _scenarioContext[ContextConstants.StatusCode] = (int)response.StatusCode;
             _scenarioContext[ContextConstants.RawResponse] = response.Content;
+        }
+
+        private static string ExpandTestValue(string value)
+        {
+            switch (value)
+            {
+                case "LONG_81":
+                    return new string('A', 81);
+                case "LONG_256":
+                    return new string('A', 256);
+                default:
+                    return value;
+            }
         }
 
         [When("I make a post request to create a pet for the selected owner with valid data")]
@@ -221,7 +218,7 @@ namespace SeleniumFramework.ApiTests.Steps
             var actualPet = _scenarioContext.Get<PetDto>(ContextConstants.CreatedPet);
             var expectedPetType = _scenarioContext.Get<PetTypeDto>(ContextConstants.SelectedPetType);
 
-            using (new AssertionScope()) 
+            using (new AssertionScope())
             {
                 actualPet.Should().NotBeNull("Response must contain pet data");
                 actualPet.Id.Should().BeGreaterThan(0, "Pet must have a valid ID");
