@@ -24,6 +24,36 @@ namespace PetClinic.ApiTests.Models.Builders
             return this;
         }
 
+        public OwnerBuilder WithFirstName(string firstName)
+        {
+            _ownerDto.FirstName = firstName;
+            return this;
+        }
+
+        public OwnerBuilder WithLastName(string lastName)
+        {
+            _ownerDto.LastName = lastName;
+            return this;
+        }
+
+        public OwnerBuilder WithAddress(string address)
+        {
+            _ownerDto.Address = address;
+            return this;
+        }
+
+        public OwnerBuilder WithCity(string city)
+        {
+            _ownerDto.City = city;
+            return this;
+        }
+
+        public OwnerBuilder WithTelephone(string telephone)
+        {
+            _ownerDto.Telephone = telephone;
+            return this;
+        }
+
         public OwnerDto Build()
         {
             return _ownerDto;

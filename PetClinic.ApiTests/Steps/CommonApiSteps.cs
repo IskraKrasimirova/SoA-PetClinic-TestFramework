@@ -48,4 +48,16 @@ public class CommonApiSteps
 
         Assert.That(contentType, Is.EqualTo(expectedContentType));
     }
+
+    [Then("response should contain error messages:")]
+    public void ThenResponseShouldContainErrorMessages(DataTable dataTable)
+    {
+        var expectedErrorMessages = dataTable.Rows.Select(row => row["ErrorMessage"]).ToList();
+        var actualErrorResponse = _scenarioContext.Get<string>(ContextConstants.RawResponse);
+
+        foreach (var message in expectedErrorMessages)
+        {
+            actualErrorResponse.Should().Contain(message);
+        }
+    }
 }

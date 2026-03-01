@@ -37,5 +37,14 @@ namespace PetClinic.ApiTests.Hooks
 
             response.StatusCode.Should().Be(System.Net.HttpStatusCode.NoContent);
         }
+
+        [AfterScenario("CreatedOwnerByFailedTest", Order = 3)]
+        public void DeleteOwner()
+        {
+            var createdOwner = _scenarioContext.Get<OwnerDto>(ContextConstants.RawResponse);
+            var response = _ownersApi.DeleteOwner(createdOwner.Id);
+
+            response.StatusCode.Should().Be(System.Net.HttpStatusCode.NoContent);
+        }
     }
 }

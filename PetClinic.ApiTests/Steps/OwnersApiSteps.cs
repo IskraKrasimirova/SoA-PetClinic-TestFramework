@@ -57,6 +57,73 @@ namespace SeleniumFramework.ApiTests.Steps
             _scenarioContext[ContextConstants.CreatedOwner] = response.Data;
         }
 
+        [Given("I make a post request to owners endpoint with empty mandatory fields")]
+        public void GivenIMakeAPostRequestToOwnersEndpointWithEmptyMandatoryFields()
+        {
+            var newOwner = new OwnerDto
+            {
+                FirstName = "",
+                LastName = "",
+                Address = "",
+                City = "",
+                Telephone = ""
+            };
+
+            var response = _ownersApi.CreateOwner(newOwner);
+
+            _scenarioContext[ContextConstants.StatusCode] = (int)response.StatusCode;
+            _scenarioContext[ContextConstants.RawResponse] = response.Content;
+        }
+
+        [Given("I make a post request to owners endpoint with not valid Telephone {string}")]
+        public void GivenIMakeAPostRequestToOwnersEndpointWithNotValidTelephone(string value)
+        {
+            var newOwner = _ownerBuilder.CreateWithDefaultValues().WithTelephone(value).Build();
+
+            var response = _ownersApi.CreateOwner(newOwner);
+
+            _scenarioContext[ContextConstants.StatusCode] = (int)response.StatusCode;
+            _scenarioContext[ContextConstants.RawResponse] = response.Content;
+        }
+
+        [Given("I make a post request to owners endpoint with not valid FirstName {string}")]
+        public void GivenIMakeAPostRequestToOwnersEndpointWithNotValidFirstName(string value)
+        {
+            var newOwner = _ownerBuilder.CreateWithDefaultValues().WithFirstName(value).Build();
+
+            var response = _ownersApi.CreateOwner(newOwner);
+
+            _scenarioContext[ContextConstants.StatusCode] = (int)response.StatusCode;
+            _scenarioContext[ContextConstants.RawResponse] = response.Content;
+        }
+
+        [Given("I make a post request to owners endpoint with not valid LastName {string}")]
+        public void GivenIMakeAPostRequestToOwnersEndpointWithNotValidLastName(string value)
+        {
+            var newOwner = _ownerBuilder.CreateWithDefaultValues().WithLastName(value).Build();
+
+            var response = _ownersApi.CreateOwner(newOwner);
+
+            _scenarioContext[ContextConstants.StatusCode] = (int)response.StatusCode;
+            _scenarioContext[ContextConstants.RawResponse] = response.Content;
+        }
+
+        [Given("I make a post request to owners endpoint with not valid City {string}")]
+        public void GivenIMakeAPostRequestToOwnersEndpointWithNotValidCity(string value)
+        {
+            var newOwner = _ownerBuilder.CreateWithDefaultValues().WithCity(value).Build();
+
+            if (!string.IsNullOrEmpty(value))
+            {
+                var cityLongName = new string('A', 81);
+                newOwner.City = cityLongName;
+            }
+
+            var response = _ownersApi.CreateOwner(newOwner);
+
+            _scenarioContext[ContextConstants.StatusCode] = (int)response.StatusCode;
+            _scenarioContext[ContextConstants.RawResponse] = response.Content;
+        }
 
         [When("I make a post request to create a pet for the selected owner with valid data")]
         public void WhenIMakeAPostRequestToCreateAPetForTheSelectedOwnerWithValidData()

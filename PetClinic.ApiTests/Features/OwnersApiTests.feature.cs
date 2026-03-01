@@ -105,7 +105,7 @@ namespace PetClinic.ApiTests.Features
         
         private static global::Reqnroll.Formatters.RuntimeSupport.FeatureLevelCucumberMessages InitializeCucumberMessages()
         {
-            return new global::Reqnroll.Formatters.RuntimeSupport.FeatureLevelCucumberMessages("Features/OwnersApiTests.feature.ndjson", 5);
+            return new global::Reqnroll.Formatters.RuntimeSupport.FeatureLevelCucumberMessages("Features/OwnersApiTests.feature.ndjson", 25);
         }
         
         [global::NUnit.Framework.TestAttribute()]
@@ -276,6 +276,268 @@ this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line hidden
 #line 40
  await testRunner.AndAsync("the retrieved pet matches the created pet data", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+            }
+            await this.ScenarioCleanupAsync();
+        }
+        
+        [global::NUnit.Framework.TestAttribute()]
+        [global::NUnit.Framework.DescriptionAttribute("Verify a user is not able to register an owner with missing mandatory fields")]
+        [global::NUnit.Framework.CategoryAttribute("OwnersApi")]
+        [global::NUnit.Framework.CategoryAttribute("Validation")]
+        public async global::System.Threading.Tasks.Task VerifyAUserIsNotAbleToRegisterAnOwnerWithMissingMandatoryFields()
+        {
+            string[] tagsOfScenario = new string[] {
+                    "OwnersApi",
+                    "Validation"};
+            global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
+            string pickleIndex = "3";
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Verify a user is not able to register an owner with missing mandatory fields", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            string[] tagsOfRule = ((string[])(null));
+            global::Reqnroll.RuleInfo ruleInfo = null;
+#line 44
+this.ScenarioInitialize(scenarioInfo, ruleInfo);
+#line hidden
+            if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
+            {
+                await testRunner.SkipScenarioAsync();
+            }
+            else
+            {
+                await this.ScenarioStartAsync();
+#line 45
+ await testRunner.GivenAsync("I make a post request to owners endpoint with empty mandatory fields", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+#line hidden
+#line 46
+ await testRunner.ThenAsync("the response status code should be 400", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+                global::Reqnroll.Table table1 = new global::Reqnroll.Table(new string[] {
+                            "ErrorMessage",
+                            "# Field"});
+                table1.AddRow(new string[] {
+                            "size must be between 1 and 30",
+                            "firstName and lastName"});
+                table1.AddRow(new string[] {
+                            "must match",
+                            "lastName"});
+                table1.AddRow(new string[] {
+                            "size must be between 1 and 255",
+                            "address"});
+                table1.AddRow(new string[] {
+                            "size must be between 1 and 80",
+                            "city"});
+                table1.AddRow(new string[] {
+                            "size must be between 1 and 20",
+                            "telephone"});
+#line 47
+ await testRunner.AndAsync("response should contain error messages:", ((string)(null)), table1, "And ");
+#line hidden
+            }
+            await this.ScenarioCleanupAsync();
+        }
+        
+        [global::NUnit.Framework.TestAttribute()]
+        [global::NUnit.Framework.DescriptionAttribute("Verify a user is not able to register an owner with invalid Telephone field")]
+        [global::NUnit.Framework.CategoryAttribute("OwnersApi")]
+        [global::NUnit.Framework.CategoryAttribute("Validation")]
+        [global::NUnit.Framework.TestCaseAttribute("", "size must be between 1 and 20", "400", "Empty", "Pass", "4", null)]
+        [global::NUnit.Framework.TestCaseAttribute("1", "Phone number must be exactly 10 digits", "500", "1 digit", "Pass", "5", null)]
+        [global::NUnit.Framework.TestCaseAttribute("123456", "Phone number must be exactly 10 digits", "500", "6 digits", "Pass", "6", null)]
+        [global::NUnit.Framework.TestCaseAttribute("12345678901234567890", "Phone number must be exactly 10 digits", "500", "20 digits", "Pass", "7", null)]
+        [global::NUnit.Framework.TestCaseAttribute("123456789012345678901", "size must be between 1 and 20", "400", "21 digits", "Pass", "8", null)]
+        [global::NUnit.Framework.TestCaseAttribute("AbcdePhone", "must match", "400", "10 letters", "Pass", "9", null)]
+        [global::NUnit.Framework.TestCaseAttribute("!@#$%^-&*?", "must match", "400", "special characters", "Pass", "10", null)]
+        public async global::System.Threading.Tasks.Task VerifyAUserIsNotAbleToRegisterAnOwnerWithInvalidTelephoneField(string value, string message, string statusCode, string description, string actual, string @__pickleIndex, string[] exampleTags)
+        {
+            string[] @__tags = new string[] {
+                    "OwnersApi",
+                    "Validation"};
+            if ((exampleTags != null))
+            {
+                @__tags = System.Linq.Enumerable.ToArray(System.Linq.Enumerable.Concat(@__tags, exampleTags));
+            }
+            string[] tagsOfScenario = @__tags;
+            global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
+            argumentsOfScenario.Add("value", value);
+            argumentsOfScenario.Add("message", message);
+            argumentsOfScenario.Add("statusCode", statusCode);
+            argumentsOfScenario.Add("#Description", description);
+            argumentsOfScenario.Add("#Actual", actual);
+            string pickleIndex = @__pickleIndex;
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Verify a user is not able to register an owner with invalid Telephone field", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            string[] tagsOfRule = ((string[])(null));
+            global::Reqnroll.RuleInfo ruleInfo = null;
+#line 57
+this.ScenarioInitialize(scenarioInfo, ruleInfo);
+#line hidden
+            if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
+            {
+                await testRunner.SkipScenarioAsync();
+            }
+            else
+            {
+                await this.ScenarioStartAsync();
+#line 58
+ await testRunner.GivenAsync(string.Format("I make a post request to owners endpoint with not valid Telephone \"{0}\"", value), ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+#line hidden
+#line 59
+ await testRunner.ThenAsync(string.Format("the response status code should be {0}", statusCode), ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 60
+ await testRunner.AndAsync(string.Format("the response should contain the following error message \"{0}\"", message), ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+            }
+            await this.ScenarioCleanupAsync();
+        }
+        
+        [global::NUnit.Framework.TestAttribute()]
+        [global::NUnit.Framework.DescriptionAttribute("Verify a user is not able to register an owner with invalid First Name field")]
+        [global::NUnit.Framework.CategoryAttribute("OwnersApi")]
+        [global::NUnit.Framework.CategoryAttribute("Validation")]
+        [global::NUnit.Framework.TestCaseAttribute("", "size must be between 1 and 30", "400", "Empty", "Pass", "11", null)]
+        [global::NUnit.Framework.TestCaseAttribute("AAAAAAAAAAbbbbbbbbbbccccccccccd", "size must be between 1 and 30", "400", "31 letter", "Pass", "12", null)]
+        [global::NUnit.Framework.TestCaseAttribute("Mary‑Jane", "must match", "400", "Hyphenated name", "Pass", "13", null)]
+        [global::NUnit.Framework.TestCaseAttribute("Maria!$%", "must match", "400", "special characters", "Pass", "14", null)]
+        [global::NUnit.Framework.TestCaseAttribute("Iskra123", "must match", "400", "letters and digits", "Pass", "15", null)]
+        public async global::System.Threading.Tasks.Task VerifyAUserIsNotAbleToRegisterAnOwnerWithInvalidFirstNameField(string value, string message, string statusCode, string description, string actual, string @__pickleIndex, string[] exampleTags)
+        {
+            string[] @__tags = new string[] {
+                    "OwnersApi",
+                    "Validation"};
+            if ((exampleTags != null))
+            {
+                @__tags = System.Linq.Enumerable.ToArray(System.Linq.Enumerable.Concat(@__tags, exampleTags));
+            }
+            string[] tagsOfScenario = @__tags;
+            global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
+            argumentsOfScenario.Add("value", value);
+            argumentsOfScenario.Add("message", message);
+            argumentsOfScenario.Add("statusCode", statusCode);
+            argumentsOfScenario.Add("#Description", description);
+            argumentsOfScenario.Add("#Actual", actual);
+            string pickleIndex = @__pickleIndex;
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Verify a user is not able to register an owner with invalid First Name field", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            string[] tagsOfRule = ((string[])(null));
+            global::Reqnroll.RuleInfo ruleInfo = null;
+#line 73
+this.ScenarioInitialize(scenarioInfo, ruleInfo);
+#line hidden
+            if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
+            {
+                await testRunner.SkipScenarioAsync();
+            }
+            else
+            {
+                await this.ScenarioStartAsync();
+#line 74
+ await testRunner.GivenAsync(string.Format("I make a post request to owners endpoint with not valid FirstName \"{0}\"", value), ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+#line hidden
+#line 75
+ await testRunner.ThenAsync(string.Format("the response status code should be {0}", statusCode), ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 76
+ await testRunner.AndAsync(string.Format("the response should contain the following error message \"{0}\"", message), ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+            }
+            await this.ScenarioCleanupAsync();
+        }
+        
+        [global::NUnit.Framework.TestAttribute()]
+        [global::NUnit.Framework.DescriptionAttribute("Verify a user is not able to register an owner with invalid Last Name field")]
+        [global::NUnit.Framework.CategoryAttribute("OwnersApi")]
+        [global::NUnit.Framework.CategoryAttribute("Validation")]
+        [global::NUnit.Framework.TestCaseAttribute("", "size must be between 1 and 30", "400", "Empty", "Pass", "16", null)]
+        [global::NUnit.Framework.TestCaseAttribute("AAAAAAAAAAbbbbbbbbbbccccccccccD", "size must be between 1 and 30", "400", "31 letter", "Pass", "17", null)]
+        [global::NUnit.Framework.TestCaseAttribute("Gray‑Stone", "must match", "400", "Hyphenated name", "Pass", "18", null)]
+        [global::NUnit.Framework.TestCaseAttribute("Smith#@!", "must match", "400", "special characters", "Pass", "19", null)]
+        [global::NUnit.Framework.TestCaseAttribute("Davis123", "must match", "400", "letters and digits", "Pass", "20", null)]
+        public async global::System.Threading.Tasks.Task VerifyAUserIsNotAbleToRegisterAnOwnerWithInvalidLastNameField(string value, string message, string statusCode, string description, string actual, string @__pickleIndex, string[] exampleTags)
+        {
+            string[] @__tags = new string[] {
+                    "OwnersApi",
+                    "Validation"};
+            if ((exampleTags != null))
+            {
+                @__tags = System.Linq.Enumerable.ToArray(System.Linq.Enumerable.Concat(@__tags, exampleTags));
+            }
+            string[] tagsOfScenario = @__tags;
+            global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
+            argumentsOfScenario.Add("value", value);
+            argumentsOfScenario.Add("message", message);
+            argumentsOfScenario.Add("statusCode", statusCode);
+            argumentsOfScenario.Add("#Description", description);
+            argumentsOfScenario.Add("#Actual", actual);
+            string pickleIndex = @__pickleIndex;
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Verify a user is not able to register an owner with invalid Last Name field", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            string[] tagsOfRule = ((string[])(null));
+            global::Reqnroll.RuleInfo ruleInfo = null;
+#line 87
+this.ScenarioInitialize(scenarioInfo, ruleInfo);
+#line hidden
+            if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
+            {
+                await testRunner.SkipScenarioAsync();
+            }
+            else
+            {
+                await this.ScenarioStartAsync();
+#line 88
+ await testRunner.GivenAsync(string.Format("I make a post request to owners endpoint with not valid LastName \"{0}\"", value), ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+#line hidden
+#line 89
+ await testRunner.ThenAsync(string.Format("the response status code should be {0}", statusCode), ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 90
+ await testRunner.AndAsync(string.Format("the response should contain the following error message \"{0}\"", message), ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+            }
+            await this.ScenarioCleanupAsync();
+        }
+        
+        [global::NUnit.Framework.TestAttribute()]
+        [global::NUnit.Framework.DescriptionAttribute("Verify a user is not able to register an owner with invalid City field")]
+        [global::NUnit.Framework.CategoryAttribute("OwnersApi")]
+        [global::NUnit.Framework.CategoryAttribute("Validation")]
+        [global::NUnit.Framework.TestCaseAttribute("", "size must be between 1 and 80", "400", "Empty", "Pass", "21", null)]
+        [global::NUnit.Framework.TestCaseAttribute("AAAAAAAAAA", "size must be between 1 and 80", "400", "81 letter", "Pass", "22", null)]
+        public async global::System.Threading.Tasks.Task VerifyAUserIsNotAbleToRegisterAnOwnerWithInvalidCityField(string value, string message, string statusCode, string description, string actual, string @__pickleIndex, string[] exampleTags)
+        {
+            string[] @__tags = new string[] {
+                    "OwnersApi",
+                    "Validation"};
+            if ((exampleTags != null))
+            {
+                @__tags = System.Linq.Enumerable.ToArray(System.Linq.Enumerable.Concat(@__tags, exampleTags));
+            }
+            string[] tagsOfScenario = @__tags;
+            global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
+            argumentsOfScenario.Add("value", value);
+            argumentsOfScenario.Add("message", message);
+            argumentsOfScenario.Add("statusCode", statusCode);
+            argumentsOfScenario.Add("#Description", description);
+            argumentsOfScenario.Add("#Actual", actual);
+            string pickleIndex = @__pickleIndex;
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Verify a user is not able to register an owner with invalid City field", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            string[] tagsOfRule = ((string[])(null));
+            global::Reqnroll.RuleInfo ruleInfo = null;
+#line 102
+this.ScenarioInitialize(scenarioInfo, ruleInfo);
+#line hidden
+            if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
+            {
+                await testRunner.SkipScenarioAsync();
+            }
+            else
+            {
+                await this.ScenarioStartAsync();
+#line 103
+ await testRunner.GivenAsync(string.Format("I make a post request to owners endpoint with not valid City \"{0}\"", value), ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+#line hidden
+#line 104
+ await testRunner.ThenAsync(string.Format("the response status code should be {0}", statusCode), ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 105
+ await testRunner.AndAsync(string.Format("the response should contain the following error message \"{0}\"", message), ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();
