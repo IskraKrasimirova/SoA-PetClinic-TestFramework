@@ -45,4 +45,10 @@ public class OwnersApi
         var request = new RestRequest($"{_uri}/{ownerId}", Method.Delete);
         return _client.Execute<OwnerDto>(request);
     }
+
+    public RestResponse<OwnerDto> GetOwnerById(int ownerId)
+    {
+        var request = new RestRequest($"{_uri}/{ownerId}", Method.Get);
+        return _client.Execute<OwnerDto>(request);
+    }
 }

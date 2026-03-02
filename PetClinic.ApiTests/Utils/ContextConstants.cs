@@ -11,6 +11,7 @@
         public const string NewPet = "NewPet";
         public const string CreatedPet = "CreatedPet";
         public const string CreatedOwner = "CreatedOwner";
+        public const string NewOwner = "NewOwner";
         public const string RawResponse = "RawResponse";
     }
 }

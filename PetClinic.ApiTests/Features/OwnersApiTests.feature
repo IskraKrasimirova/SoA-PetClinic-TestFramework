@@ -83,18 +83,27 @@ Examples:
 	| Address   | LONG_256                        | size must be between 1 and 255         |        400 | 256 letter         |
 
 
-
-#@OwnersApi @CityField @Positive
-#Scenario Outline: Verify a user is able to register an owner with valid City field
-#	Given I make a post request to owners endpoint with City "<value>"
-#	Then the response status code should be 201
-#Examples:
-#	| value          | #Description       |
-#	| Frankfurt‑Oder | Hyphenated city    |
-#	| O'ConnorTown   | Apostrophe         |
-#	| София          | Cyrillic letters   |
-#	| Tokyo123       | Letters and digits |
-#	| Madrid!@#      | Special characters |
-
-
 # API allows Unicode letters due to \p{L} regex. UI restricts to English letters only.
+
+@OwnersApi @Validation @CreateOwner @CleanupOwner
+Scenario Outline: Verify a user is able to register an owner with specific details
+	Given I make a post request to owners endpoint with valid specific details for "<field>" with "<value>"
+	Then the response status code should be 201
+	And the created owner persists with the provided details
+Examples:
+	| field     | value                          | #Description       |
+	| FirstName | Искра                          | Cyrillic letters   |
+	| FirstName | A                              | 1 letter           |
+	| FirstName | AAAAAAAAAAbbbbbbbbbbcccccccccc | 30 letters         |
+	| LastName  | Кръстева                       | Cyrillic letters   |
+	| LastName  | a                              | 1 letter           |
+	| LastName  | aaaaaaaaaabbbbbbbbbbcccccCCCCC | 30 letters         |
+	| City      | Frankfurt‑Oder                 | Hyphenated city    |
+	| City      | O'ConnorTown                   | Apostrophe         |
+	| City      | София                          | Cyrillic letters   |
+	| City      | Tokyo123                       | Letters and digits |
+	| City      | Madrid!@#                      | Special characters |
+	| City      | a                              | 1 letter           |
+	| City      | LONG_80                        | 80 letters         |
+	| Address   | b                              | 1 letter           |
+	| Address   | LONG_255                       | 255 letters        |

@@ -109,12 +109,51 @@ namespace SeleniumFramework.ApiTests.Steps
             _scenarioContext[ContextConstants.RawResponse] = response.Content;
         }
 
+        [Given("I make a post request to owners endpoint with valid specific details for {string} with {string}")]
+        public void GivenIMakeAPostRequestToOwnersEndpointWithValidSpecificDetailsForWith(string field, string value)
+        {
+            var builder = _ownerBuilder.CreateWithDefaultValues();
+            var expandedValue = ExpandTestValue(value);
+
+            switch (field)
+            {
+                case "FirstName":
+                    builder.WithFirstName(value);
+                    break;
+                case "LastName":
+                    builder.WithLastName(value);
+                    break;
+                case "Address":
+                    builder.WithAddress(expandedValue);
+                    break;
+                case "City":
+                    builder.WithCity(expandedValue);
+                    break;
+                case "Telephone":
+                    builder.WithTelephone(value);
+                    break;
+                default:
+                    throw new ArgumentException($"Unknown field: {field}");
+            }
+
+            var newOwner = builder.Build();
+            var response = _ownersApi.CreateOwner(newOwner);
+
+            _scenarioContext[ContextConstants.StatusCode] = (int)response.StatusCode;
+            _scenarioContext[ContextConstants.CreatedOwner] = response.Data;
+            _scenarioContext[ContextConstants.NewOwner] = newOwner;
+        }
+
         private static string ExpandTestValue(string value)
         {
             switch (value)
             {
+                case "LONG_80":
+                    return new string('A', 80);
                 case "LONG_81":
                     return new string('A', 81);
+                case "LONG_255":
+                    return new string('A', 255);
                 case "LONG_256":
                     return new string('A', 256);
                 default:
@@ -271,6 +310,30 @@ namespace SeleniumFramework.ApiTests.Steps
             {
                 retrievedPet.Should().NotBeNull("Response must contain pet data");
                 retrievedPet.Should().BeEquivalentTo(createdPet);
+            }
+        }
+
+        [Then("the created owner persists with the provided details")]
+        public void ThenTheCreatedOwnerPersistsWithTheProvidedDetails()
+        {
+            var newOwner = _scenarioContext.Get<OwnerDto>(ContextConstants.NewOwner);
+            var createdOwner = _scenarioContext.Get<OwnerDto>(ContextConstants.CreatedOwner);
+
+            createdOwner.Should().BeEquivalentTo(
+                newOwner,
+                options => options
+                    .Excluding(o => o.Id)
+            );
+
+            var response = _ownersApi.GetOwnerById(createdOwner.Id);
+            var actualOwner =response.Data;
+
+            using (new AssertionScope())
+            {
+                response.StatusCode.Should().Be(System.Net.HttpStatusCode.OK, "Owner should be retrievable by ID");
+                response.ContentType.Should().Contain("application/json", "Response content type should be JSON");
+                actualOwner.Should().NotBeNull("Response must contain owner data");
+                actualOwner.Should().BeEquivalentTo(createdOwner);
             }
         }
     }
