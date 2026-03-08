@@ -47,15 +47,12 @@ namespace PetClinic.UiTests.Hooks
 
                 var driver = new ChromeDriver(options);
 
-                if (isCi)
-                {
-                    driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(10);
-                }
-                else
+                if (!isCi)
                 {
                     driver.Manage().Window.Maximize();
-                    driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(3);
                 }
+
+                driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(3);
 
                 return driver;
             });
