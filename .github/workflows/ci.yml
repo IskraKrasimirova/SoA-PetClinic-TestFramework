@@ -54,15 +54,15 @@ jobs:
       if: always()
       run: find . -type f -name "*.trx" -print
 
-    # Install ReportGenerator
-    - name: Install ReportGenerator
+    # Install trx2html
+    - name: Install trx2html
       if: always()
-      run: dotnet tool install -g dotnet-reportgenerator-globaltool
+      run: dotnet tool install -g trx2html
 
-    # Generate combined HTML report for ALL TRX files
-    - name: Generate HTML report
+    # Generate HTML test report
+    - name: Generate HTML test report
       if: always()
-      run: reportgenerator -reports:**/TestResults/**/test-results.trx -targetdir:TestReports/Html -reporttypes:"HtmlSummary"
+      run: trx2html -i **/TestResults/test-results.trx -o TestReports/Html
 
     # Upload TRX files
     - name: Upload TRX results
