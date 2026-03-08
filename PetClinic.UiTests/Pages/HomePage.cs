@@ -1,4 +1,5 @@
 ﻿using OpenQA.Selenium;
+using PetClinic.UiTests.Utilities;
 
 namespace PetClinic.UiTests.Pages
 {
@@ -14,6 +15,18 @@ namespace PetClinic.UiTests.Pages
 
         public void VerifyIsAtHomePage()
         {
+            Retry.Until(() =>
+            {
+                if (!GreetingHeader.Displayed)
+                    throw new RetryException("Home page header not visible yet.");
+
+                if (!PetsImage.Displayed)
+                    throw new RetryException("Pets image not visible yet.");
+
+                if (!LogoImage.Displayed)
+                    throw new RetryException("Logo image not visible yet.");
+            });
+
             Assert.Multiple(() =>
             {
                 Assert.That(GreetingHeader.Displayed, "Welcome header is not visible.");

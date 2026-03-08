@@ -34,7 +34,9 @@ namespace PetClinic.UiTests.Hooks
 
                 var options = new ChromeOptions();
 
-                if (Environment.GetEnvironmentVariable("CI") == "true")
+                bool isCi = Environment.GetEnvironmentVariable("CI") == "true";
+
+                if (isCi)
                 {
                     options.AddArgument("--headless=new");
                     options.AddArgument("--no-sandbox");
@@ -44,9 +46,16 @@ namespace PetClinic.UiTests.Hooks
                 }
 
                 var driver = new ChromeDriver(options);
-                
-                driver.Manage().Window.Maximize();
-                driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(10);
+
+                if (isCi)
+                {
+                    driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(10);
+                }
+                else
+                {
+                    driver.Manage().Window.Maximize();
+                    driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(3);
+                }
 
                 return driver;
             });

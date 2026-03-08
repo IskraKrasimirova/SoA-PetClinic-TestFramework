@@ -1,4 +1,5 @@
 ﻿using OpenQA.Selenium;
+using PetClinic.UiTests.Utilities;
 
 namespace PetClinic.UiTests.Pages
 {
@@ -21,6 +22,18 @@ namespace PetClinic.UiTests.Pages
 
         public void VerifyNavigationIsVisible()
         {
+            Retry.Until(() =>
+            {
+                if (!BrandLink.Displayed ||
+                    !HomeLink.Displayed ||
+                    !FindOwnersLink.Displayed ||
+                    !VeterinariansLink.Displayed ||
+                    !ErrorLink.Displayed)
+                {
+                    throw new RetryException("Navigation bar not fully visible yet.");
+                }
+            });
+
             Assert.Multiple(() =>
             {
                 Assert.That(BrandLink.Displayed, "Brand link is not visible.");
