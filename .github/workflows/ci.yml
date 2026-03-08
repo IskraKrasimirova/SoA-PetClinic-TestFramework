@@ -49,21 +49,23 @@ jobs:
 
     - name: Run all tests (UI + API)
       run: dotnet test --logger "trx;LogFileName=test-results.trx"
-      continue-on-error: true
 
     - name: Debug TRX files
+      if: always()
       run: find . -type f -name "*.trx" -print
 
     # Install ReportGenerator
     - name: Install ReportGenerator
+      if: always()
       run: dotnet tool install -g dotnet-reportgenerator-globaltool
 
     # Generate combined HTML report for ALL TRX files
     - name: Generate HTML report
-      run: reportgenerator -reports:**/TestResults/**/test-results.trx -targetdir:TestReports/Html -reporttypes:Html
+      run: reportgenerator -reports:**/TestResults/**/test-results.trx -targetdir:TestReports/Html -reporttypes:Html;Test
 
     # Upload TRX files
     - name: Upload TRX results
+      if: always()
       uses: actions/upload-artifact@v4
       with:
         name: all-test-results-trx
@@ -71,6 +73,7 @@ jobs:
 
     # Upload HTML report
     - name: Upload HTML report
+      if: always()
       uses: actions/upload-artifact@v4
       with:
         name: all-test-results-html
