@@ -11,6 +11,9 @@ using PetClinic.UiTests.Utilities;
 using Reqnroll.Microsoft.Extensions.DependencyInjection;
 using RestSharp;
 using System.Data;
+using WebDriverManager;
+using WebDriverManager.DriverConfigs.Impl;
+using WebDriverManager.Helpers;
 
 namespace PetClinic.UiTests.Hooks
 {
@@ -27,9 +30,21 @@ namespace PetClinic.UiTests.Hooks
             
             services.AddScoped<IWebDriver>(sp =>
             {
-                //new DriverManager().SetUpDriver(new ChromeConfig());
+                new DriverManager().SetUpDriver(new ChromeConfig(), VersionResolveStrategy.MatchingBrowser);
 
-                var driver = new ChromeDriver();
+                var options = new ChromeOptions();
+
+                if (Environment.GetEnvironmentVariable("CI") == "true")
+                {
+                    options.AddArgument("--headless=new");
+                    options.AddArgument("--no-sandbox");
+                    options.AddArgument("--disable-dev-shm-usage");
+                    options.AddArgument("--disable-gpu");
+                    options.AddArgument("--window-size=1920,1080");
+                }
+
+                var driver = new ChromeDriver(options);
+                
                 driver.Manage().Window.Maximize();
                 driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(3);
 
