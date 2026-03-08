@@ -48,54 +48,15 @@ jobs:
       run: dotnet restore
 
     - name: Run all tests (UI + API)
-      run: dotnet test --logger "trx;LogFileName=test-results.trx"
+      run: dotnet test --logger "trx;LogFileName=test-results.trx" --logger "html;logfilename=test-report.html"
 
-    - name: Debug TRX files
-      if: always()
-      run: find . -type f -name "*.trx" -print
-
-    # Install Python (needed for junit2html)
-    - name: Install Python
-      if: always()
-      uses: actions/setup-python@v4
-      with:
-        python-version: '3.x'
-
-    # Install junit2html
-    - name: Install junit2html
-      if: always()
-      run: pip install junit2html
-
-    # Install trx2junit
-    - name: Install trx2junit
-      if: always()
-      run: dotnet tool install -g trx2junit
-
-    # --- CONVERT TRX → JUNIT XML (one by one) ---
-    - name: Convert TRX to JUnit XML
+    - name: Debug TRX and HTML files
       if: always()
       run: |
-        mkdir -p TestReports/JUnit
-        for file in $(find . -type f -name "*.trx"); do
-          echo "Converting $file"
-          trx2junit "$file" --output "TestReports/JUnit/$(basename $file).xml"
-        done
-
-    # --- MERGE ALL JUNIT XML FILES INTO ONE ---
-    - name: Merge JUnit XML files
-      if: always()
-      run: |
-        mkdir -p TestReports/Html
-        echo "<testsuites>" > TestReports/JUnit/combined.xml
-        for f in TestReports/JUnit/*.xml; do
-          sed '1d;$d' "$f" >> TestReports/JUnit/combined.xml
-        done
-        echo "</testsuites>" >> TestReports/JUnit/combined.xml
-
-    # --- GENERATE HTML REPORT ---
-    - name: Generate HTML test report
-      if: always()
-      run: junit2html TestReports/JUnit/combined.xml TestReports/Html/index.html
+        echo "TRX files:"
+        find . -type f -name "*.trx" -print
+        echo "HTML files:"
+        find . -type f -name "test-report.html" -print
 
     # Upload TRX files
     - name: Upload TRX results
@@ -111,7 +72,7 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: all-test-results-html
-        path: TestReports/Html
+        path: "**/TestResults/**/test-report.html"
 
     - name: Stop containers
       if: always()
