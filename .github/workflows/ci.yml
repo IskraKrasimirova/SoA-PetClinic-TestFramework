@@ -62,7 +62,7 @@ jobs:
     # Generate combined HTML report for ALL TRX files
     - name: Generate HTML report
       if: always()
-      run: reportgenerator -reports:**/TestResults/**/test-results.trx -targetdir:TestReports/Html -reporttypes:"Html;Test"
+      run: reportgenerator -reports:**/TestResults/**/test-results.trx -targetdir:TestReports/Html -reporttypes:"HtmlSummary"
 
     # Upload TRX files
     - name: Upload TRX results
