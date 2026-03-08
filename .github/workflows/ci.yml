@@ -19,15 +19,25 @@ jobs:
     - name: Wait for services to be ready
       run: sleep 15
 
+    # Install Google Chrome (official .deb repo)
     - name: Install Chrome
       run: |
         sudo apt-get update
+        sudo apt-get install -y wget gnupg unzip curl
+        wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | sudo apt-key add -
+        echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" | sudo tee /etc/apt/sources.list.d/google-chrome.list
+        sudo apt-get update
         sudo apt-get install -y google-chrome-stable
 
+    # Install matching ChromeDriver
     - name: Install ChromeDriver
       run: |
-        sudo apt-get install -y chromium-chromedriver
-        sudo ln -s /usr/lib/chromium-browser/chromedriver /usr/bin/chromedriver
+        CHROME_VERSION=$(google-chrome --version | sed 's/Google Chrome //')
+        CHROMEDRIVER_VERSION=$(curl -s "https://chromedriver.storage.googleapis.com/LATEST_RELEASE")
+        wget -N https://chromedriver.storage.googleapis.com/$CHROMEDRIVER_VERSION/chromedriver_linux64.zip
+        unzip chromedriver_linux64.zip
+        sudo mv chromedriver /usr/bin/chromedriver
+        sudo chmod +x /usr/bin/chromedriver
 
     - name: Install .NET
       uses: actions/setup-dotnet@v3
