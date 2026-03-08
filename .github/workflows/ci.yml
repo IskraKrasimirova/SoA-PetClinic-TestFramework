@@ -19,7 +19,7 @@ jobs:
     - name: Wait for services to be ready
       run: sleep 15
 
-    # Install Google Chrome (official .deb repo)
+    # Install Google Chrome
     - name: Install Chrome
       run: |
         sudo apt-get update
@@ -47,8 +47,30 @@ jobs:
     - name: Restore dependencies
       run: dotnet restore
 
-    - name: Run tests
+    - name: Run all tests (UI + API)
       run: dotnet test --logger "trx;LogFileName=test-results.trx"
+
+    # Install ReportGenerator
+    - name: Install ReportGenerator
+      run: dotnet tool install -g dotnet-reportgenerator-globaltool
+
+    # Generate combined HTML report for ALL TRX files
+    - name: Generate HTML report
+      run: reportgenerator -reports:**/TestResults/*.trx -targetdir:TestReports/Html
+
+    # Upload TRX files
+    - name: Upload TRX results
+      uses: actions/upload-artifact@v4
+      with:
+        name: all-test-results-trx
+        path: "**/TestResults/*.trx"
+
+    # Upload HTML report
+    - name: Upload HTML report
+      uses: actions/upload-artifact@v4
+      with:
+        name: all-test-results-html
+        path: TestReports/Html
 
     - name: Stop containers
       if: always()
