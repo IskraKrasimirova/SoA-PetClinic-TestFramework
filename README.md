@@ -156,3 +156,30 @@ As a system user, I want to add visits for pets so that the system can log visit
 - Docker
 - Swagger UI
 - Spring Pet Clinic (UI & REST)
+
+
+## Continuous Integration (CI)
+
+This project uses **GitHub Actions** to automatically run all UI and API tests on every push and pull request.
+
+### What the pipeline does
+- Restores dependencies  
+- Builds the solution  
+- Starts required Docker containers  
+- Installs Chrome & ChromeDriver  
+- Runs all tests (`dotnet test`)  
+- Generates TRX test results  
+- Generates an HTML test report using ReportGenerator  
+- Uploads both reports as artifacts  
+
+### Test Reports
+
+Each workflow run produces two downloadable artifacts:
+
+- **all-test-results-trx** — raw TRX files  
+- **all-test-results-html** — HTML test report  
+
+To view the HTML report:
+1. Download `all-test-results-html.zip`
+2. Extract it
+3. Open `test-report.html` in your browser
