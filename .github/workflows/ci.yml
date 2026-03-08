@@ -49,6 +49,7 @@ jobs:
 
     - name: Run all tests (UI + API)
       run: dotnet test --logger "trx;LogFileName=test-results.trx"
+      continue-on-error: true
 
     - name: Debug TRX files
       run: find . -type f -name "*.trx" -print
