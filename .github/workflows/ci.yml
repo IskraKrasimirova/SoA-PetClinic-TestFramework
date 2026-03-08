@@ -1,4 +1,4 @@
-name: CI
+﻿name: CI
 
 on:
   push:
@@ -54,15 +54,32 @@ jobs:
       if: always()
       run: find . -type f -name "*.trx" -print
 
-    # Install trx2html
-    - name: Install trx2html
+    # Install Python (needed for junit2html)
+    - name: Install Python
       if: always()
-      run: dotnet tool install -g trx2html
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.x'
 
-    # Generate HTML test report
+    # Install junit2html
+    - name: Install junit2html
+      if: always()
+      run: pip install junit2html
+
+    # Install trx2junit
+    - name: Install trx2junit
+      if: always()
+      run: dotnet tool install -g trx2junit
+
+    # Convert TRX → JUnit XML
+    - name: Convert TRX to JUnit XML
+      if: always()
+      run: trx2junit **/TestResults/test-results.trx --output TestReports/junit.xml
+
+    # Convert JUnit XML → HTML
     - name: Generate HTML test report
       if: always()
-      run: trx2html -i **/TestResults/test-results.trx -o TestReports/Html
+      run: junit2html TestReports/junit.xml TestReports/Html/index.html
 
     # Upload TRX files
     - name: Upload TRX results
