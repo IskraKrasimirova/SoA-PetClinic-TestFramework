@@ -50,20 +50,23 @@ jobs:
     - name: Run all tests (UI + API)
       run: dotnet test --logger "trx;LogFileName=test-results.trx"
 
+    - name: Debug TRX files
+      run: find . -type f -name "*.trx" -print
+
     # Install ReportGenerator
     - name: Install ReportGenerator
       run: dotnet tool install -g dotnet-reportgenerator-globaltool
 
     # Generate combined HTML report for ALL TRX files
     - name: Generate HTML report
-      run: reportgenerator -reports:**/TestResults/*.trx -targetdir:TestReports/Html
+      run: reportgenerator -reports:**/TestResults/**/test-results.trx -targetdir:TestReports/Html -reporttypes:Html
 
     # Upload TRX files
     - name: Upload TRX results
       uses: actions/upload-artifact@v4
       with:
         name: all-test-results-trx
-        path: "**/TestResults/*.trx"
+        path: "**/TestResults/**/test-results.trx"
 
     # Upload HTML report
     - name: Upload HTML report
