@@ -71,15 +71,31 @@ jobs:
       if: always()
       run: dotnet tool install -g trx2junit
 
-    # Convert TRX → JUnit XML
+    # --- CONVERT TRX → JUNIT XML (one by one) ---
     - name: Convert TRX to JUnit XML
       if: always()
-      run: trx2junit **/TestResults/test-results.trx --output TestReports/junit.xml
+      run: |
+        mkdir -p TestReports/JUnit
+        for file in $(find . -type f -name "*.trx"); do
+          echo "Converting $file"
+          trx2junit "$file" --output "TestReports/JUnit/$(basename $file).xml"
+        done
 
-    # Convert JUnit XML → HTML
+    # --- MERGE ALL JUNIT XML FILES INTO ONE ---
+    - name: Merge JUnit XML files
+      if: always()
+      run: |
+        mkdir -p TestReports/Html
+        echo "<testsuites>" > TestReports/JUnit/combined.xml
+        for f in TestReports/JUnit/*.xml; do
+          sed '1d;$d' "$f" >> TestReports/JUnit/combined.xml
+        done
+        echo "</testsuites>" >> TestReports/JUnit/combined.xml
+
+    # --- GENERATE HTML REPORT ---
     - name: Generate HTML test report
       if: always()
-      run: junit2html TestReports/junit.xml TestReports/Html/index.html
+      run: junit2html TestReports/JUnit/combined.xml TestReports/Html/index.html
 
     # Upload TRX files
     - name: Upload TRX results
