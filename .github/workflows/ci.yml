@@ -2,78 +2,62 @@
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [main]
   pull_request:
+  workflow_dispatch:
 
 jobs:
   test:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v3
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-    - name: Start containers
-      run: docker compose up -d
+      - name: Start containers
+        run: docker compose up -d
 
-    - name: Wait for services to be ready
-      run: sleep 15
+      - name: Wait for API to be ready
+        run: |
+          for i in {1..30}; do
+            curl -s http://localhost:9966/petclinic/api/owners && break
+            echo "Waiting... attempt $i"
+            sleep 5
+          done
 
-    # Install Google Chrome
-    - name: Install Chrome
-      run: |
-        sudo apt-get update
-        sudo apt-get install -y wget gnupg unzip curl
-        wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | sudo apt-key add -
-        echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" | sudo tee /etc/apt/sources.list.d/google-chrome.list
-        sudo apt-get update
-        sudo apt-get install -y google-chrome-stable
+      - name: Wait for UI to be ready
+        run: |
+          for i in {1..30}; do
+            curl -s http://localhost:8080 && break
+            echo "Waiting... attempt $i"
+            sleep 5
+          done
 
-    # Install matching ChromeDriver
-    - name: Install ChromeDriver
-      run: |
-        CHROME_VERSION=$(google-chrome --version | sed 's/Google Chrome //')
-        CHROMEDRIVER_VERSION=$(curl -s "https://chromedriver.storage.googleapis.com/LATEST_RELEASE")
-        wget -N https://chromedriver.storage.googleapis.com/$CHROMEDRIVER_VERSION/chromedriver_linux64.zip
-        unzip chromedriver_linux64.zip
-        sudo mv chromedriver /usr/bin/chromedriver
-        sudo chmod +x /usr/bin/chromedriver
+      - name: Install .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
 
-    - name: Install .NET
-      uses: actions/setup-dotnet@v3
-      with:
-        dotnet-version: '8.0.x'
+      - name: Restore dependencies
+        run: dotnet restore
 
-    - name: Restore dependencies
-      run: dotnet restore
+      - name: Run all tests (UI + API)
+        run: dotnet test --logger "trx;LogFileName=test-results.trx" --logger "html;logfilename=test-report.html"
 
-    - name: Run all tests (UI + API)
-      run: dotnet test --logger "trx;LogFileName=test-results.trx" --logger "html;logfilename=test-report.html"
+      - name: Upload TRX results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: all-test-results-trx
+          path: "**/TestResults/test-results.trx"
 
-    - name: Debug TRX and HTML files
-      if: always()
-      run: |
-        echo "TRX files:"
-        find . -type f -name "*.trx" -print
-        echo "HTML files:"
-        find . -type f -name "test-report.html" -print
+      - name: Upload HTML report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: all-test-results-html
+          path: "**/TestResults/test-report.html"
 
-    # Upload TRX files
-    - name: Upload TRX results
-      if: always()
-      uses: actions/upload-artifact@v4
-      with:
-        name: all-test-results-trx
-        path: "**/TestResults/**/test-results.trx"
-
-    # Upload HTML report
-    - name: Upload HTML report
-      if: always()
-      uses: actions/upload-artifact@v4
-      with:
-        name: all-test-results-html
-        path: "**/TestResults/**/test-report.html"
-
-    - name: Stop containers
-      if: always()
-      run: docker compose down
+      - name: Stop containers
+        if: always()
+        run: docker compose down
