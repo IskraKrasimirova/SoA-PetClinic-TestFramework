@@ -16,9 +16,6 @@ namespace PetClinic.UiTests.Pages
         private IWebElement AddOwnerButton => _driver.FindElement(By.XPath("//button[text()='Add Owner']"));
         private IWebElement LogoImage => _driver.FindElement(By.XPath("//img[contains(@src,'spring')]"));
 
-        //private ICollection<IWebElement> FieldValidationMessages(string fieldId)
-        //    => _driver.FindElements(By.XPath($"//*[@id='{fieldId}']/following::span[@class='help-inline']"));
-
         private ICollection<IWebElement> FieldValidationMessages(string fieldId)
             => _driver.FindElements(By.XPath($"//*[@id='{fieldId}']/parent::div/span[@class='help-inline']"));
 
