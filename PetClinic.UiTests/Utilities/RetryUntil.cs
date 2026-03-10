@@ -14,7 +14,7 @@ namespace PetClinic.UiTests.Utilities
                 }
                 catch (Exception e )
                 {
-                    if (e is RetryException || e is StaleElementReferenceException)
+                    if (e is RetryException || e is StaleElementReferenceException || e is UnknownErrorException)
                     {
 
                         retryNumber--;
