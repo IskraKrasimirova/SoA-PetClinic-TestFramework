@@ -27,25 +27,24 @@ namespace PetClinic.UiTests.Pages
 
         public string GetFieldValidationMessage(string field)
         {
-
-            IWebElement element;
-
-            switch (field)
-            {
-                case "Date":
-                    element = DateInput;
-                    break;
-                case "Description":
-                    element = DescriptionInput;
-                    break;
-                default:
-                    throw new ArgumentException($"Unknown field: {field}");
-            }
-
             string? messageText = null;
 
             Retry.Until(() =>
             {
+                IWebElement element;
+
+                switch (field)
+                {
+                    case "Date":
+                        element = DateInput;
+                        break;
+                    case "Description":
+                        element = DescriptionInput;
+                        break;
+                    default:
+                        throw new ArgumentException($"Unknown field: {field}");
+                }
+
                 var messages = element.FindElements(By.XPath("./parent::div/span[@class='help-inline']"));
 
                 if (messages.Count == 0)

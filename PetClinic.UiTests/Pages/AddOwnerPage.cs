@@ -36,12 +36,11 @@ namespace PetClinic.UiTests.Pages
 
         public string? GetFieldValidationMessage(string field)
         {
-            var fieldId = GetFieldId(field);
-
             string? messageText = null;
 
             Retry.Until(() =>
             {
+                var fieldId = GetFieldId(field);
                 var messages = FieldValidationMessages(fieldId);
 
                 if (messages.Count == 0)
