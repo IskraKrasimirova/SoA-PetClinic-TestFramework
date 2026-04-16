@@ -4,7 +4,7 @@ using PetClinic.ApiTests.Models.Dtos;
 using PetClinic.ApiTests.Utils;
 using Reqnroll;
 
-namespace SeleniumFramework.ApiTests.Steps;
+namespace PetClinic.ApiTests.Steps;
 
 [Binding]
 public class CommonApiSteps

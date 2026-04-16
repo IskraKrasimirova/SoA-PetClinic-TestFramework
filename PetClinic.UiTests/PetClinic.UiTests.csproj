@@ -53,7 +53,6 @@
 
 	<ItemGroup>
 		<Folder Include="Features\" />
-		<Folder Include="Models\Builders\" />
 	</ItemGroup>
 
 </Project>

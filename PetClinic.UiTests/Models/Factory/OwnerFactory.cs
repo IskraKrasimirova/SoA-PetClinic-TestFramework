@@ -2,7 +2,7 @@
 
 namespace PetClinic.UiTests.Models.Factory
 {
-    public class OwnerFactory:IOwnerFactory
+    public class OwnerFactory : IOwnerFactory
     {
         private static readonly Faker Faker = new();
 

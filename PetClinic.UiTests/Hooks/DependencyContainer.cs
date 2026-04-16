@@ -1,16 +1,10 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using MySqlConnector;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
-using PetClinic.ApiTests.Apis;
-using PetClinic.UiTests.DatabaseOperations.Operations;
-using PetClinic.UiTests.Models;
 using PetClinic.UiTests.Models.Factory;
 using PetClinic.UiTests.Pages;
 using PetClinic.UiTests.Utilities;
 using Reqnroll.Microsoft.Extensions.DependencyInjection;
-using RestSharp;
-using System.Data;
 using WebDriverManager;
 using WebDriverManager.DriverConfigs.Impl;
 using WebDriverManager.Helpers;
@@ -23,6 +17,7 @@ namespace PetClinic.UiTests.Hooks
         public static IServiceCollection RegisterDependencies()
         {
             var services = new ServiceCollection();
+
             services.AddSingleton(sp =>
             {
                 return ConfigurationManager.Instance.SettingsModel;
@@ -61,28 +56,8 @@ namespace PetClinic.UiTests.Hooks
             services.AddSingleton<IPetFactory, PetFactory>();
 
             RegisterPages(services);
-            //RegisterDatabaseOperations(services);
-            RegisterApi(services);
 
             return services;
-        }
-
-        private static void RegisterDatabaseOperations(ServiceCollection services)
-        {
-            services.AddScoped<IDbConnection>(sp =>
-            {
-                var settings = sp.GetRequiredService<SettingsModel>();
-                var connectionString = settings.ConnectionString;
-
-                var dbConnection = new MySqlConnection(connectionString);
-                return dbConnection;
-            });
-
-            services.AddScoped(sp =>
-            {
-                var dbConnection = sp.GetRequiredService<IDbConnection>();
-                return new UserOperations(dbConnection);
-            });
         }
 
         private static void RegisterPages(ServiceCollection services)
@@ -133,24 +108,6 @@ namespace PetClinic.UiTests.Hooks
             {
                 var driver = sp.GetRequiredService<IWebDriver>();
                 return new NavigationBar(driver);
-            });
-        }
-
-        private static void RegisterApi(ServiceCollection services)
-        {
-            services.AddSingleton<RestClient>(sp =>
-            {
-                var settings = sp.GetRequiredService<SettingsModel>();
-                var options = new RestClientOptions(settings.ApiBaseUrl);
-                var client = new RestClient(options);
-                client.AddDefaultHeader("Accept", "application/json");
-                return client;
-            });
-        
-            services.AddScoped(sp =>
-            {
-                var client = sp.GetRequiredService<RestClient>();
-                return new OwnersApi(client);
             });
         }
     }

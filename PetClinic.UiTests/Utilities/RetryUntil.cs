@@ -16,14 +16,15 @@ namespace PetClinic.UiTests.Utilities
                 {
                     if (e is RetryException || e is StaleElementReferenceException || e is UnknownErrorException)
                     {
-
                         retryNumber--;
                         Thread.Sleep(waitInMilliseconds);
 
                         continue;
                     }
                     else
+                    {
                         throw;
+                    }
                 }
 
                 break;

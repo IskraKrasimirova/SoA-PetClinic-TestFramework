@@ -14,6 +14,7 @@ public class DependencyContainer
     public static IServiceCollection RegisterDependencies()
     {
         var services = new ServiceCollection();
+
         services.AddSingleton(sp =>
         {
             return ConfigurationManager.Instance.SettingsModel;
@@ -25,6 +26,7 @@ public class DependencyContainer
             var options = new RestClientOptions(settings.BaseUrl);
             var client = new RestClient(options);
             client.AddDefaultHeader("Accept", "application/json");
+
             return client;
         });
         
